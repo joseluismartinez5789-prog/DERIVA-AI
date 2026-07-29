@@ -1,0 +1,5 @@
+streamlit[auth]
+python-dotenv
+google-genai
+pandas
+openpyxl

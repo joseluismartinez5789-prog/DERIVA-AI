@@ -1,0 +1,314 @@
+/* ==========================================================
+   DERIVA AI - Design System
+   Variables globales de identidad visual
+========================================================== */
+
+:root {
+
+    /* ======================================================
+       FONDOS
+    ====================================================== */
+
+    --bg-color: #eef6ff;
+    --bg-secondary: #e7f1ff;
+    --bg-tertiary: #def5ff;
+    --bg-soft: #f7fbff;
+    --bg-white: #ffffff;
+
+    --bg-gradient:
+        linear-gradient(
+            135deg,
+            #eef6ff 0%,
+            #f4f0ff 52%,
+            #e7f8ff 100%
+        );
+
+    --bg-gradient-strong:
+        linear-gradient(
+            135deg,
+            #6685f4 0%,
+            #7c68eb 52%,
+            #a05fdc 100%
+        );
+
+    --bg-gradient-soft:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .92),
+            rgba(244, 248, 255, .84)
+        );
+
+
+    /* ======================================================
+       COLORES PRINCIPALES
+    ====================================================== */
+
+    --primary: #6685f4;
+    --primary-light: #8fa7ff;
+    --primary-dark: #4f67d4;
+
+    --secondary: #7d69eb;
+    --secondary-light: #a18ff4;
+    --secondary-dark: #6552cf;
+
+    --accent: #b86de8;
+    --accent-light: #d99df5;
+    --accent-dark: #994acb;
+
+    --cyan: #64d2ff;
+    --cyan-light: #bdeeff;
+    --cyan-dark: #35aedd;
+
+    --success: #39b980;
+    --success-light: #ddf8eb;
+    --success-dark: #21865a;
+
+    --warning: #f2ae49;
+    --warning-light: #fff4d8;
+    --warning-dark: #bd7822;
+
+    --danger: #e86d78;
+    --danger-light: #ffe8eb;
+    --danger-dark: #be4653;
+
+    --info: #4b9fea;
+    --info-light: #e4f3ff;
+    --info-dark: #337bbb;
+
+
+    /* ======================================================
+       TEXTO
+    ====================================================== */
+
+    --text: #243b59;
+    --text-strong: #172b45;
+    --text-title: #1f3552;
+    --text-light: #728199;
+    --text-muted: #8b98aa;
+    --text-soft: #a8b1c0;
+    --text-white: #ffffff;
+
+    --text-gradient:
+        linear-gradient(
+            135deg,
+            #4e6de6,
+            #8064e5,
+            #aa5ed9
+        );
+
+
+    /* ======================================================
+       SUPERFICIES Y GLASSMORPHISM
+    ====================================================== */
+
+    --surface: rgba(255, 255, 255, .78);
+    --surface-strong: rgba(255, 255, 255, .92);
+    --surface-soft: rgba(248, 251, 255, .78);
+    --surface-dark: rgba(29, 44, 69, .92);
+
+    --glass: rgba(255, 255, 255, .62);
+    --glass-soft: rgba(255, 255, 255, .42);
+    --glass-strong: rgba(255, 255, 255, .82);
+
+    --glass-border: rgba(255, 255, 255, .92);
+    --glass-border-soft: rgba(132, 151, 185, .16);
+    --glass-highlight: rgba(255, 255, 255, .34);
+
+    --backdrop-blur: blur(22px);
+    --backdrop-blur-strong: blur(32px);
+
+
+    /* ======================================================
+       BORDES
+    ====================================================== */
+
+    --border: rgba(126, 145, 177, .15);
+    --border-soft: rgba(126, 145, 177, .10);
+    --border-medium: rgba(126, 145, 177, .22);
+    --border-primary: rgba(102, 133, 244, .25);
+
+    --radius-xs: 8px;
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --radius-xl: 28px;
+    --radius-2xl: 34px;
+    --radius-pill: 999px;
+
+    --radius: var(--radius-xl);
+
+
+    /* ======================================================
+       SOMBRAS
+    ====================================================== */
+
+    --shadow-xs:
+        0 4px 12px rgba(49, 68, 111, .06);
+
+    --shadow-sm:
+        0 8px 22px rgba(49, 68, 111, .08);
+
+    --shadow:
+        0 14px 36px rgba(49, 68, 111, .10);
+
+    --shadow-md:
+        0 18px 44px rgba(49, 68, 111, .13);
+
+    --shadow-lg:
+        0 26px 62px rgba(49, 68, 111, .17);
+
+    --shadow-xl:
+        0 34px 76px rgba(49, 68, 111, .22);
+
+    --shadow-primary:
+        0 16px 34px rgba(102, 133, 244, .25);
+
+    --shadow-secondary:
+        0 16px 34px rgba(125, 105, 235, .24);
+
+    --shadow-accent:
+        0 16px 34px rgba(184, 109, 232, .22);
+
+    --shadow-inset:
+        inset 0 1px 0 rgba(255, 255, 255, .62);
+
+
+    /* ======================================================
+       TIPOGRAFÍA
+    ====================================================== */
+
+    --font-main:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+
+    --font-display:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        sans-serif;
+
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 22px;
+    --font-size-2xl: 28px;
+    --font-size-3xl: 36px;
+    --font-size-4xl: 48px;
+    --font-size-5xl: 62px;
+
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 650;
+    --font-weight-bold: 750;
+    --font-weight-extrabold: 850;
+    --font-weight-black: 900;
+
+    --line-height-tight: 1.08;
+    --line-height-title: 1.18;
+    --line-height-normal: 1.55;
+    --line-height-relaxed: 1.72;
+
+
+    /* ======================================================
+       ESPACIADO
+    ====================================================== */
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-7: 28px;
+    --space-8: 32px;
+    --space-9: 40px;
+    --space-10: 48px;
+    --space-11: 56px;
+    --space-12: 64px;
+
+
+    /* ======================================================
+       COMPONENTES
+    ====================================================== */
+
+    --button-height: 50px;
+    --button-height-sm: 42px;
+    --button-height-lg: 58px;
+
+    --input-height: 52px;
+
+    --sidebar-width: 292px;
+    --content-max-width: 1480px;
+
+    --card-padding: 26px;
+    --card-gap: 22px;
+
+
+    /* ======================================================
+       TRANSICIONES Y ANIMACIONES
+    ====================================================== */
+
+    --transition-fast: .16s ease;
+    --transition: .28s ease;
+    --transition-slow: .45s ease;
+
+    --transition-spring:
+        .34s cubic-bezier(
+            .2,
+            .8,
+            .2,
+            1
+        );
+
+    --blur: 25px;
+
+
+    /* ======================================================
+       Z-INDEX
+    ====================================================== */
+
+    --z-base: 1;
+    --z-card: 5;
+    --z-header: 20;
+    --z-sidebar: 30;
+    --z-modal: 100;
+    --z-tooltip: 200;
+}
+
+
+/* ==========================================================
+   VARIABLES RESPONSIVE
+========================================================== */
+
+@media (max-width: 1200px) {
+
+    :root {
+        --sidebar-width: 270px;
+        --card-padding: 22px;
+        --card-gap: 18px;
+    }
+
+}
+
+
+@media (max-width: 780px) {
+
+    :root {
+        --font-size-5xl: 44px;
+        --font-size-4xl: 38px;
+        --font-size-3xl: 31px;
+        --font-size-2xl: 25px;
+
+        --card-padding: 20px;
+        --card-gap: 15px;
+
+        --radius-xl: 24px;
+        --radius-2xl: 28px;
+    }
+
+}

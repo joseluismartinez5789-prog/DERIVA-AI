@@ -1,0 +1,27 @@
+{
+  "unidades": [
+    {
+      "id": 1,
+      "nombre": "Unidad 1. Límites y sus propiedades",
+      "temas": [
+        "1.1 Una mirada previa al cálculo",
+        "1.2 Cálculo de límites de manera gráfica y numérica",
+        "1.3 Cálculo analítico de límites",
+        "1.4 Continuidad y límites laterales",
+        "1.5 Límites infinitos"
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Unidad 2. Derivadas",
+      "temas": [
+        "2.1 Recta tangente y razón de cambio",
+        "2.2 Definición de derivada",
+        "2.3 Reglas básicas de derivación",
+        "2.4 Regla del producto y del cociente",
+        "2.5 Regla de la cadena",
+        "2.6 Derivación implícita"
+      ]
+    }
+  ]
+}

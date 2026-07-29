@@ -1,0 +1,1463 @@
+/* ==========================================================
+   DERIVA AI - CARDS
+   Sistema global de tarjetas y superficies
+========================================================== */
+
+
+/* ==========================================================
+   TARJETA BASE
+========================================================== */
+
+.deriva-card,
+.glass-card,
+.content-card,
+.metric-card,
+.feature-card,
+.dashboard-card,
+.lesson-card,
+.practice-card,
+.result-card,
+.progress-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: var(--card-padding);
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--radius-xl);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .88),
+            rgba(247, 250, 255, .72)
+        );
+
+    box-shadow:
+        var(--shadow);
+
+    backdrop-filter:
+        var(--backdrop-blur);
+
+    -webkit-backdrop-filter:
+        var(--backdrop-blur);
+
+    transition:
+        transform var(--transition-spring),
+        box-shadow var(--transition),
+        border-color var(--transition),
+        background var(--transition);
+
+    isolation: isolate;
+
+}
+
+
+/* Brillo interior */
+
+.deriva-card::before,
+.glass-card::before,
+.content-card::before,
+.metric-card::before,
+.feature-card::before,
+.dashboard-card::before,
+.lesson-card::before,
+.practice-card::before,
+.result-card::before,
+.progress-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -1;
+
+    pointer-events: none;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .48),
+            transparent 42%
+        );
+
+    opacity: .78;
+
+}
+
+
+/* Halo decorativo */
+
+.deriva-card::after,
+.glass-card::after,
+.content-card::after,
+.feature-card::after,
+.dashboard-card::after,
+.lesson-card::after,
+.practice-card::after,
+.result-card::after,
+.progress-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: -90px;
+
+    right: -90px;
+
+    z-index: -1;
+
+    width: 190px;
+
+    height: 190px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(126, 111, 235, .12),
+            transparent 69%
+        );
+
+    pointer-events: none;
+
+    transition:
+        transform var(--transition-slow),
+        opacity var(--transition-slow);
+
+}
+
+
+/* Hover */
+
+.deriva-card:hover,
+.glass-card:hover,
+.content-card:hover,
+.feature-card:hover,
+.dashboard-card:hover,
+.lesson-card:hover,
+.practice-card:hover,
+.result-card:hover,
+.progress-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    border-color:
+        rgba(126, 111, 235, .22);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .94),
+            rgba(247, 250, 255, .82)
+        );
+
+    box-shadow:
+        var(--shadow-lg);
+
+}
+
+
+.deriva-card:hover::after,
+.glass-card:hover::after,
+.content-card:hover::after,
+.feature-card:hover::after,
+.dashboard-card:hover::after,
+.lesson-card:hover::after,
+.practice-card:hover::after,
+.result-card:hover::after,
+.progress-card:hover::after {
+
+    transform:
+        scale(1.18);
+
+    opacity: 1;
+
+}
+
+
+/* ==========================================================
+   CONTENIDO INTERNO
+========================================================== */
+
+.deriva-card-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: var(--space-4);
+
+    margin-bottom: var(--space-5);
+
+}
+
+
+.deriva-card-title-group {
+
+    min-width: 0;
+
+}
+
+
+.deriva-card-eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: var(--space-2);
+
+    color: var(--primary-dark);
+
+    font-size: var(--font-size-xs);
+
+    font-weight: var(--font-weight-black);
+
+    letter-spacing: .09em;
+
+    text-transform: uppercase;
+
+}
+
+
+.deriva-card-title {
+
+    margin: 0;
+
+    color: var(--text-title);
+
+    font-size: var(--font-size-xl);
+
+    font-weight: var(--font-weight-black);
+
+    line-height: 1.22;
+
+    letter-spacing: -.025em;
+
+}
+
+
+.deriva-card-description {
+
+    margin:
+        var(--space-3)
+        0
+        0;
+
+    color: var(--text-light);
+
+    font-size: var(--font-size-sm);
+
+    line-height: var(--line-height-relaxed);
+
+}
+
+
+.deriva-card-body {
+
+    position: relative;
+
+    z-index: 1;
+
+}
+
+
+.deriva-card-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: var(--space-4);
+
+    margin-top: var(--space-6);
+
+    padding-top: var(--space-5);
+
+    border-top:
+        1px solid
+        var(--border-soft);
+
+}
+
+
+/* ==========================================================
+   ICONOS
+========================================================== */
+
+.deriva-card-icon,
+.card-icon {
+
+    display: grid;
+
+    place-items: center;
+
+    flex:
+        0 0
+        58px;
+
+    width: 58px;
+
+    height: 58px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .88);
+
+    border-radius:
+        19px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .92),
+            rgba(241, 246, 255, .76)
+        );
+
+    color: var(--primary);
+
+    font-size: 28px;
+
+    box-shadow:
+        var(--shadow-sm),
+        var(--shadow-inset);
+
+    transition:
+        transform var(--transition-spring),
+        box-shadow var(--transition);
+
+}
+
+
+.deriva-card:hover .deriva-card-icon,
+.deriva-card:hover .card-icon,
+.feature-card:hover .deriva-card-icon,
+.lesson-card:hover .deriva-card-icon {
+
+    transform:
+        translateY(-3px)
+        rotate(-2deg)
+        scale(1.04);
+
+    box-shadow:
+        var(--shadow-md);
+
+}
+
+
+/* Icono pequeño */
+
+.deriva-card-icon-sm {
+
+    display: grid;
+
+    place-items: center;
+
+    flex:
+        0 0
+        42px;
+
+    width: 42px;
+
+    height: 42px;
+
+    border-radius:
+        14px;
+
+    background:
+        rgba(102, 133, 244, .10);
+
+    color:
+        var(--primary-dark);
+
+    font-size:
+        20px;
+
+}
+
+
+/* ==========================================================
+   TARJETAS DE MÉTRICAS
+========================================================== */
+
+.metric-card {
+
+    min-height: 150px;
+
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .91),
+            rgba(246, 249, 255, .79)
+        );
+
+}
+
+
+.metric-card:hover {
+
+    transform:
+        translateY(-4px);
+
+}
+
+
+.metric-label {
+
+    color: var(--text-muted);
+
+    font-size: var(--font-size-xs);
+
+    font-weight: var(--font-weight-black);
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+}
+
+
+.metric-value {
+
+    margin-top: var(--space-3);
+
+    color: var(--text-strong);
+
+    font-size:
+        clamp(
+            2rem,
+            3.5vw,
+            2.8rem
+        );
+
+    font-weight: var(--font-weight-black);
+
+    line-height: 1;
+
+    letter-spacing: -.05em;
+
+}
+
+
+.metric-detail {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: var(--space-4);
+
+    color: var(--text-light);
+
+    font-size: var(--font-size-sm);
+
+}
+
+
+.metric-trend {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    padding:
+        5px
+        8px;
+
+    border-radius:
+        var(--radius-pill);
+
+    font-size: 11px;
+
+    font-weight: var(--font-weight-extrabold);
+
+}
+
+
+.metric-trend.is-positive {
+
+    background:
+        var(--success-light);
+
+    color:
+        var(--success-dark);
+
+}
+
+
+.metric-trend.is-negative {
+
+    background:
+        var(--danger-light);
+
+    color:
+        var(--danger-dark);
+
+}
+
+
+.metric-trend.is-neutral {
+
+    background:
+        var(--info-light);
+
+    color:
+        var(--info-dark);
+
+}
+
+
+/* ==========================================================
+   TARJETAS INTERACTIVAS
+========================================================== */
+
+.deriva-card-link,
+.feature-card,
+.lesson-card,
+.practice-card {
+
+    cursor: pointer;
+
+}
+
+
+.deriva-card-link:active,
+.feature-card:active,
+.lesson-card:active,
+.practice-card:active {
+
+    transform:
+        translateY(-2px)
+        scale(.995);
+
+}
+
+
+/* Flecha visual */
+
+.deriva-card-arrow {
+
+    display: grid;
+
+    place-items: center;
+
+    width: 38px;
+
+    height: 38px;
+
+    border-radius:
+        13px;
+
+    background:
+        rgba(102, 133, 244, .10);
+
+    color:
+        var(--primary);
+
+    font-size:
+        18px;
+
+    transition:
+        transform var(--transition-spring),
+        color var(--transition),
+        background var(--transition);
+
+}
+
+
+.deriva-card:hover .deriva-card-arrow,
+.feature-card:hover .deriva-card-arrow,
+.lesson-card:hover .deriva-card-arrow {
+
+    transform:
+        translateX(4px);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color:
+        white;
+
+}
+
+
+/* ==========================================================
+   VARIANTES DE COLOR
+========================================================== */
+
+.card-primary,
+.deriva-card.is-primary {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(235, 241, 255, .94),
+            rgba(248, 250, 255, .84)
+        );
+
+}
+
+
+.card-primary::after,
+.deriva-card.is-primary::after {
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(102, 133, 244, .22),
+            transparent 68%
+        );
+
+}
+
+
+.card-secondary,
+.deriva-card.is-secondary {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(241, 237, 255, .94),
+            rgba(251, 249, 255, .84)
+        );
+
+}
+
+
+.card-secondary::after,
+.deriva-card.is-secondary::after {
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(125, 105, 235, .22),
+            transparent 68%
+        );
+
+}
+
+
+.card-accent,
+.deriva-card.is-accent {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 239, 251, .94),
+            rgba(255, 250, 254, .84)
+        );
+
+}
+
+
+.card-accent::after,
+.deriva-card.is-accent::after {
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(184, 109, 232, .21),
+            transparent 68%
+        );
+
+}
+
+
+.card-cyan,
+.deriva-card.is-cyan {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(231, 248, 255, .96),
+            rgba(249, 253, 255, .84)
+        );
+
+}
+
+
+.card-cyan::after,
+.deriva-card.is-cyan::after {
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(100, 210, 255, .25),
+            transparent 68%
+        );
+
+}
+
+
+.card-success,
+.deriva-card.is-success {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(234, 251, 242, .96),
+            rgba(250, 255, 252, .85)
+        );
+
+}
+
+
+.card-success::after,
+.deriva-card.is-success::after {
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(57, 185, 128, .19),
+            transparent 68%
+        );
+
+}
+
+
+.card-warning,
+.deriva-card.is-warning {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 247, 227, .96),
+            rgba(255, 253, 247, .85)
+        );
+
+}
+
+
+.card-warning::after,
+.deriva-card.is-warning::after {
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(242, 174, 73, .20),
+            transparent 68%
+        );
+
+}
+
+
+.card-danger,
+.deriva-card.is-danger {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 238, 241, .96),
+            rgba(255, 250, 251, .86)
+        );
+
+}
+
+
+.card-danger::after,
+.deriva-card.is-danger::after {
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(232, 109, 120, .19),
+            transparent 68%
+        );
+
+}
+
+
+/* ==========================================================
+   TARJETA DESTACADA / HERO CARD
+========================================================== */
+
+.deriva-card-featured {
+
+    padding:
+        clamp(
+            28px,
+            4vw,
+            44px
+        );
+
+    border-color:
+        rgba(255, 255, 255, .24);
+
+    background:
+        radial-gradient(
+            circle at 88% 12%,
+            rgba(255, 255, 255, .24),
+            transparent 24%
+        ),
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary) 56%,
+            var(--accent)
+        );
+
+    color: white;
+
+    box-shadow:
+        0 28px 64px
+        rgba(75, 77, 176, .25);
+
+}
+
+
+.deriva-card-featured::before {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .17),
+            transparent 48%
+        );
+
+}
+
+
+.deriva-card-featured::after {
+
+    width: 260px;
+
+    height: 260px;
+
+    top: auto;
+
+    right: -90px;
+
+    bottom: -150px;
+
+    background:
+        rgba(255, 255, 255, .10);
+
+}
+
+
+.deriva-card-featured h1,
+.deriva-card-featured h2,
+.deriva-card-featured h3,
+.deriva-card-featured strong {
+
+    color: white;
+
+}
+
+
+.deriva-card-featured p,
+.deriva-card-featured span {
+
+    color:
+        rgba(255, 255, 255, .84);
+
+}
+
+
+/* ==========================================================
+   TARJETAS DE RESULTADOS
+========================================================== */
+
+.result-card {
+
+    border-left:
+        5px solid
+        var(--primary);
+
+}
+
+
+.result-card.is-correct {
+
+    border-left-color:
+        var(--success);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(235, 252, 244, .94),
+            rgba(251, 255, 253, .86)
+        );
+
+}
+
+
+.result-card.is-incorrect {
+
+    border-left-color:
+        var(--danger);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 239, 241, .94),
+            rgba(255, 251, 252, .86)
+        );
+
+}
+
+
+.result-card.is-warning {
+
+    border-left-color:
+        var(--warning);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 248, 230, .94),
+            rgba(255, 253, 247, .86)
+        );
+
+}
+
+
+/* ==========================================================
+   TARJETAS COMPACTAS
+========================================================== */
+
+.deriva-card-compact {
+
+    padding:
+        18px
+        20px;
+
+    border-radius:
+        var(--radius-lg);
+
+}
+
+
+.deriva-card-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: var(--space-4);
+
+}
+
+
+.deriva-card-row-copy {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+.deriva-card-row-copy strong {
+
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--text-title);
+
+    font-size: var(--font-size-md);
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.deriva-card-row-copy span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    overflow: hidden;
+
+    color: var(--text-muted);
+
+    font-size: var(--font-size-sm);
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ==========================================================
+   TARJETA DESHABILITADA
+========================================================== */
+
+.deriva-card.is-disabled,
+.deriva-card-disabled {
+
+    cursor: not-allowed;
+
+    opacity: .68;
+
+    filter: saturate(.72);
+
+}
+
+
+.deriva-card.is-disabled:hover,
+.deriva-card-disabled:hover {
+
+    transform: none;
+
+    box-shadow: var(--shadow);
+
+}
+
+
+/* ==========================================================
+   GRUPOS Y CUADRÍCULAS
+========================================================== */
+
+.deriva-card-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+
+    gap: var(--card-gap);
+
+}
+
+
+.deriva-card-grid.cols-2 {
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+}
+
+
+.deriva-card-grid.cols-4 {
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0, 1fr)
+        );
+
+}
+
+
+/* Columnas nativas de Streamlit */
+
+[data-testid="stHorizontalBlock"] {
+
+    align-items: stretch;
+
+}
+
+
+[data-testid="column"] > div {
+
+    height: 100%;
+
+}
+
+
+/* ==========================================================
+   CONTENEDORES NATIVOS STREAMLIT
+========================================================== */
+
+[data-testid="stVerticalBlockBorderWrapper"] {
+
+    border-color:
+        var(--glass-border) !important;
+
+    border-radius:
+        var(--radius-xl) !important;
+
+    background:
+        rgba(255, 255, 255, .72);
+
+    box-shadow:
+        var(--shadow-sm);
+
+    backdrop-filter:
+        var(--backdrop-blur);
+
+}
+
+
+[data-testid="stMetric"] {
+
+    padding:
+        20px;
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .89),
+            rgba(246, 249, 255, .75)
+        );
+
+    box-shadow:
+        var(--shadow-sm);
+
+    backdrop-filter:
+        var(--backdrop-blur);
+
+    transition:
+        transform var(--transition-spring),
+        box-shadow var(--transition);
+
+}
+
+
+[data-testid="stMetric"]:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        var(--shadow-md);
+
+}
+
+
+[data-testid="stMetricLabel"] {
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        var(--font-size-sm);
+
+    font-weight:
+        var(--font-weight-bold);
+
+}
+
+
+[data-testid="stMetricValue"] {
+
+    color:
+        var(--text-strong);
+
+    font-size:
+        clamp(
+            1.8rem,
+            3vw,
+            2.5rem
+        );
+
+    font-weight:
+        var(--font-weight-black);
+
+    letter-spacing:
+        -.04em;
+
+}
+
+
+[data-testid="stMetricDelta"] {
+
+    font-weight:
+        var(--font-weight-bold);
+
+}
+
+
+/* ==========================================================
+   ETIQUETAS Y BADGES VISUALES
+========================================================== */
+
+.deriva-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding:
+        7px
+        11px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .86);
+
+    border-radius:
+        var(--radius-pill);
+
+    background:
+        rgba(255, 255, 255, .68);
+
+    color:
+        var(--primary-dark);
+
+    font-size:
+        11px;
+
+    font-weight:
+        var(--font-weight-extrabold);
+
+    box-shadow:
+        var(--shadow-xs);
+
+    backdrop-filter:
+        blur(14px);
+
+}
+
+
+.deriva-badge.is-success {
+
+    background:
+        var(--success-light);
+
+    color:
+        var(--success-dark);
+
+}
+
+
+.deriva-badge.is-warning {
+
+    background:
+        var(--warning-light);
+
+    color:
+        var(--warning-dark);
+
+}
+
+
+.deriva-badge.is-danger {
+
+    background:
+        var(--danger-light);
+
+    color:
+        var(--danger-dark);
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 1200px) {
+
+    .deriva-card-grid.cols-4 {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .deriva-card-grid {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+    }
+
+}
+
+
+@media (max-width: 680px) {
+
+    .deriva-card,
+    .glass-card,
+    .content-card,
+    .metric-card,
+    .feature-card,
+    .dashboard-card,
+    .lesson-card,
+    .practice-card,
+    .result-card,
+    .progress-card {
+
+        padding:
+            20px;
+
+        border-radius:
+            var(--radius-lg);
+
+    }
+
+
+    .deriva-card:hover,
+    .glass-card:hover,
+    .content-card:hover,
+    .feature-card:hover,
+    .dashboard-card:hover,
+    .lesson-card:hover,
+    .practice-card:hover,
+    .result-card:hover,
+    .progress-card:hover {
+
+        transform:
+            translateY(-3px);
+
+    }
+
+
+    .deriva-card-grid,
+    .deriva-card-grid.cols-2,
+    .deriva-card-grid.cols-4 {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            15px;
+
+    }
+
+
+    .deriva-card-header {
+
+        gap:
+            12px;
+
+    }
+
+
+    .deriva-card-icon,
+    .card-icon {
+
+        flex-basis:
+            52px;
+
+        width:
+            52px;
+
+        height:
+            52px;
+
+        border-radius:
+            17px;
+
+        font-size:
+            25px;
+
+    }
+
+
+    .deriva-card-title {
+
+        font-size:
+            20px;
+
+    }
+
+
+    .deriva-card-footer {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+    }
+
+}
+
+
+/* ==========================================================
+   REDUCCIÓN DE MOVIMIENTO
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .deriva-card,
+    .glass-card,
+    .content-card,
+    .metric-card,
+    .feature-card,
+    .dashboard-card,
+    .lesson-card,
+    .practice-card,
+    .result-card,
+    .progress-card,
+    .deriva-card-icon,
+    .card-icon,
+    .deriva-card-arrow {
+
+        transition:
+            none;
+
+    }
+
+
+    .deriva-card:hover,
+    .glass-card:hover,
+    .content-card:hover,
+    .feature-card:hover,
+    .dashboard-card:hover,
+    .lesson-card:hover,
+    .practice-card:hover,
+    .result-card:hover,
+    .progress-card:hover {
+
+        transform:
+            none;
+
+    }
+
+}

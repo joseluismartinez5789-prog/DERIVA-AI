@@ -1,0 +1,753 @@
+@import url(
+    "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+);
+
+@import url(
+    "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"
+);
+
+
+/* ==========================================================
+   DERIVA AI - MAIN
+   Estilos globales de la aplicación
+========================================================== */
+
+
+/* ==========================================================
+   RESET GENERAL
+========================================================== */
+
+html,
+body,
+[class*="css"],
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"] {
+
+    font-family: var(--font-main);
+
+}
+
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+
+body {
+
+    margin: 0;
+
+    background: var(--bg-color);
+
+    color: var(--text);
+
+    overflow-x: hidden;
+
+}
+
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+
+::selection {
+
+    background: rgba(102, 133, 244, .22);
+
+    color: var(--text-strong);
+
+}
+
+
+/* ==========================================================
+   APP
+========================================================== */
+
+.stApp {
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 0% 0%,
+            rgba(100, 210, 255, .28),
+            transparent 31%
+        ),
+        radial-gradient(
+            circle at 100% 2%,
+            rgba(216, 137, 255, .22),
+            transparent 33%
+        ),
+        radial-gradient(
+            circle at 52% 100%,
+            rgba(124, 140, 255, .17),
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #eef7ff 0%,
+            #f4f1ff 48%,
+            #eafcff 100%
+        );
+
+    background-attachment: fixed;
+
+    color: var(--text);
+
+}
+
+
+.stApp::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    background:
+        linear-gradient(
+            rgba(255, 255, 255, .12) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, .10) 1px,
+            transparent 1px
+        );
+
+    background-size: 70px 70px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, .35),
+            transparent 72%
+        );
+
+    opacity: .30;
+
+}
+
+
+/* ==========================================================
+   CONTENEDOR PRINCIPAL
+========================================================== */
+
+[data-testid="stMain"] {
+
+    position: relative;
+
+    z-index: var(--z-base);
+
+}
+
+
+.block-container {
+
+    width: 100%;
+
+    max-width: var(--content-max-width);
+
+    padding-top: 2.1rem;
+
+    padding-right: 2rem;
+
+    padding-bottom: 4rem;
+
+    padding-left: 2rem;
+
+    margin-inline: auto;
+
+}
+
+
+/* ==========================================================
+   TIPOGRAFÍA
+========================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+    margin-top: 0;
+
+    color: var(--text-title);
+
+    font-family: var(--font-display);
+
+    font-weight: var(--font-weight-black);
+
+    letter-spacing: -.025em;
+
+}
+
+
+h1 {
+
+    font-size: clamp(
+        2.4rem,
+        4.2vw,
+        4.1rem
+    );
+
+    line-height: var(--line-height-tight);
+
+}
+
+
+h2 {
+
+    font-size: clamp(
+        1.9rem,
+        3vw,
+        2.8rem
+    );
+
+    line-height: var(--line-height-title);
+
+}
+
+
+h3 {
+
+    font-size: clamp(
+        1.3rem,
+        2vw,
+        1.65rem
+    );
+
+    line-height: 1.25;
+
+}
+
+
+h4 {
+
+    font-size: 1.15rem;
+
+}
+
+
+p,
+li,
+label,
+span {
+
+    line-height: var(--line-height-normal);
+
+}
+
+
+p {
+
+    color: var(--text-light);
+
+}
+
+
+strong {
+
+    color: var(--text-strong);
+
+    font-weight: var(--font-weight-bold);
+
+}
+
+
+a {
+
+    color: var(--primary);
+
+    text-decoration: none;
+
+    transition: color var(--transition-fast);
+
+}
+
+
+a:hover {
+
+    color: var(--secondary);
+
+}
+
+
+/* ==========================================================
+   ELEMENTOS DE TEXTO STREAMLIT
+========================================================== */
+
+[data-testid="stMarkdownContainer"] {
+
+    color: var(--text);
+
+}
+
+
+[data-testid="stMarkdownContainer"] p {
+
+    color: var(--text-light);
+
+}
+
+
+[data-testid="stCaptionContainer"] {
+
+    color: var(--text-muted);
+
+    font-size: var(--font-size-sm);
+
+}
+
+
+/* ==========================================================
+   MENSAJES NATIVOS
+========================================================== */
+
+[data-testid="stAlert"] {
+
+    border: 1px solid rgba(255, 255, 255, .86);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    backdrop-filter: var(--backdrop-blur);
+
+}
+
+
+[data-testid="stAlert"] > div {
+
+    border-radius: inherit;
+
+}
+
+
+[data-testid="stNotification"] {
+
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-md);
+
+}
+
+
+/* ==========================================================
+   EXPANDERS
+========================================================== */
+
+[data-testid="stExpander"] {
+
+    overflow: hidden;
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--radius-lg);
+
+    background: var(--surface);
+
+    box-shadow: var(--shadow-sm);
+
+    backdrop-filter: var(--backdrop-blur);
+
+}
+
+
+[data-testid="stExpander"] summary {
+
+    padding: 1rem 1.1rem;
+
+    color: var(--text-title);
+
+    font-weight: var(--font-weight-bold);
+
+}
+
+
+[data-testid="stExpander"] summary:hover {
+
+    color: var(--primary-dark);
+
+}
+
+
+/* ==========================================================
+   DIVISORES
+========================================================== */
+
+hr {
+
+    height: 1px;
+
+    margin: 1.7rem 0;
+
+    border: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(112, 130, 165, .22),
+            transparent
+        );
+
+}
+
+
+/* ==========================================================
+   TABLAS Y DATAFRAMES
+========================================================== */
+
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {
+
+    overflow: hidden;
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--radius-lg);
+
+    background: rgba(255, 255, 255, .84);
+
+    box-shadow: var(--shadow-sm);
+
+}
+
+
+[data-testid="stDataFrame"] {
+
+    backdrop-filter: var(--backdrop-blur);
+
+}
+
+
+/* ==========================================================
+   SPINNERS Y ESTADOS DE CARGA
+========================================================== */
+
+[data-testid="stSpinner"] {
+
+    color: var(--primary);
+
+}
+
+
+[data-testid="stStatusWidget"] {
+
+    border-radius: var(--radius-lg);
+
+}
+
+
+/* ==========================================================
+   CÓDIGO
+========================================================== */
+
+code {
+
+    padding: .18rem .4rem;
+
+    border-radius: var(--radius-xs);
+
+    background: rgba(102, 133, 244, .09);
+
+    color: var(--primary-dark);
+
+    font-family:
+        "Cascadia Code",
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+}
+
+
+pre {
+
+    overflow-x: auto;
+
+    padding: 1rem;
+
+    border: 1px solid var(--border-soft);
+
+    border-radius: var(--radius-md);
+
+    background: rgba(28, 43, 67, .95);
+
+    box-shadow: var(--shadow-sm);
+
+}
+
+
+pre code {
+
+    padding: 0;
+
+    background: transparent;
+
+    color: #edf5ff;
+
+}
+
+
+/* ==========================================================
+   BARRA DE DESPLAZAMIENTO
+========================================================== */
+
+::-webkit-scrollbar {
+
+    width: 10px;
+
+    height: 10px;
+
+}
+
+
+::-webkit-scrollbar-track {
+
+    background: rgba(226, 237, 249, .58);
+
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    border: 2px solid rgba(238, 247, 255, .82);
+
+    border-radius: var(--radius-pill);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(102, 133, 244, .66),
+            rgba(125, 105, 235, .58)
+        );
+
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+}
+
+
+/* ==========================================================
+   CABECERA NATIVA DE STREAMLIT
+========================================================== */
+
+header[data-testid="stHeader"] {
+
+    height: 0;
+
+    background: transparent !important;
+
+}
+
+
+[data-testid="stToolbar"] {
+
+    display: none !important;
+
+}
+
+
+[data-testid="stDecoration"] {
+
+    display: none !important;
+
+}
+
+
+/* ==========================================================
+   MENÚ Y FOOTER NATIVOS
+========================================================== */
+
+#MainMenu {
+
+    visibility: hidden;
+
+}
+
+
+footer {
+
+    visibility: hidden;
+
+    height: 0;
+
+}
+
+
+/* ==========================================================
+   FOCO Y ACCESIBILIDAD
+========================================================== */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+
+    outline: 3px solid rgba(102, 133, 244, .23);
+
+    outline-offset: 3px;
+
+}
+
+
+/* ==========================================================
+   UTILIDADES GLOBALES
+========================================================== */
+
+.deriva-glass {
+
+    border: 1px solid var(--glass-border);
+
+    background: var(--glass);
+
+    box-shadow: var(--shadow);
+
+    backdrop-filter: var(--backdrop-blur);
+
+}
+
+
+.deriva-surface {
+
+    border: 1px solid var(--glass-border);
+
+    background: var(--surface-strong);
+
+    box-shadow: var(--shadow-sm);
+
+}
+
+
+.deriva-gradient-text {
+
+    background: var(--text-gradient);
+
+    background-clip: text;
+
+    -webkit-background-clip: text;
+
+    color: transparent;
+
+    -webkit-text-fill-color: transparent;
+
+}
+
+
+.deriva-section {
+
+    margin-bottom: var(--space-9);
+
+}
+
+
+.deriva-section-title {
+
+    margin-bottom: var(--space-2);
+
+    color: var(--text-title);
+
+    font-size: var(--font-size-2xl);
+
+    font-weight: var(--font-weight-black);
+
+}
+
+
+.deriva-section-description {
+
+    margin: 0 0 var(--space-6);
+
+    color: var(--text-light);
+
+    font-size: var(--font-size-md);
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE BASE
+========================================================== */
+
+@media (max-width: 1200px) {
+
+    .block-container {
+
+        padding-right: 1.6rem;
+
+        padding-left: 1.6rem;
+
+    }
+
+}
+
+
+@media (max-width: 780px) {
+
+    .block-container {
+
+        padding-top: 1.2rem;
+
+        padding-right: 1rem;
+
+        padding-bottom: 3rem;
+
+        padding-left: 1rem;
+
+    }
+
+
+    .stApp {
+
+        background-attachment: scroll;
+
+    }
+
+
+    .stApp::before {
+
+        background-size: 44px 44px;
+
+        opacity: .20;
+
+    }
+
+
+    h1 {
+
+        letter-spacing: -.035em;
+
+    }
+
+
+    hr {
+
+        margin: 1.3rem 0;
+
+    }
+
+}

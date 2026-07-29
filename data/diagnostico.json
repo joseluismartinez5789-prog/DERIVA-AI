@@ -1,0 +1,31 @@
+{
+    "realizado": true,
+    "nivel": "Avanzado",
+    "puntaje": 9,
+    "total": 10,
+    "fortalezas": [
+        "Límites",
+        "Continuidad",
+        "Derivadas",
+        "Continuidad gráfica",
+        "Aplicaciones",
+        "Definición de derivada"
+    ],
+    "mejorar": [
+        "Interpretación gráfica"
+    ],
+    "plan_estudios": [
+        {
+            "orden": 1,
+            "area": "Interpretación gráfica",
+            "lecciones": [
+                "Lectura de límites en gráficas",
+                "Huecos, saltos y asíntotas",
+                "Límites laterales desde una gráfica"
+            ],
+            "estado": "Pendiente"
+        }
+    ],
+    "siguiente_area": "Interpretación gráfica",
+    "siguiente_leccion": "Lectura de límites en gráficas"
+}

@@ -1,0 +1,258 @@
+/* ==========================================================
+   DERIVA AI - HEADER Y CONTROL DEL MENÚ
+   Mantiene visible el botón para abrir/cerrar la barra lateral
+========================================================== */
+
+
+/* ==========================================================
+   CABECERA NATIVA DE STREAMLIT
+========================================================== */
+
+header[data-testid="stHeader"] {
+
+    position:
+        fixed;
+
+    top:
+        0;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    z-index:
+        99999;
+
+    height:
+        3.75rem !important;
+
+    background:
+        transparent !important;
+
+    pointer-events:
+        none;
+
+}
+
+
+/* Los controles necesarios sí deben recibir clics */
+
+header[data-testid="stHeader"] button,
+header[data-testid="stHeader"] a,
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarCollapsedControl"] {
+
+    pointer-events:
+        auto;
+
+}
+
+
+/* ==========================================================
+   BOTÓN PARA ABRIR EL SIDEBAR CUANDO ESTÁ CERRADO
+========================================================== */
+
+[data-testid="stSidebarCollapsedControl"] {
+
+    position:
+        fixed !important;
+
+    top:
+        .85rem !important;
+
+    left:
+        .9rem !important;
+
+    z-index:
+        100000 !important;
+
+    display:
+        flex !important;
+
+    visibility:
+        visible !important;
+
+    opacity:
+        1 !important;
+
+}
+
+
+[data-testid="stSidebarCollapsedControl"] button {
+
+    display:
+        grid !important;
+
+    place-items:
+        center;
+
+    width:
+        44px !important;
+
+    height:
+        44px !important;
+
+    padding:
+        0 !important;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .94) !important;
+
+    border-radius:
+        15px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .94),
+            rgba(235, 245, 255, .82)
+        ) !important;
+
+    color:
+        #36536f !important;
+
+    box-shadow:
+        0 12px 28px
+        rgba(65, 101, 145, .18) !important;
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        background .22s ease;
+
+}
+
+
+[data-testid="stSidebarCollapsedControl"] button:hover {
+
+    transform:
+        translateY(-3px)
+        scale(1.03);
+
+    background:
+        rgba(255, 255, 255, .98) !important;
+
+    box-shadow:
+        0 17px 34px
+        rgba(65, 101, 145, .24) !important;
+
+}
+
+
+/* ==========================================================
+   BOTÓN PARA CERRAR EL SIDEBAR CUANDO ESTÁ ABIERTO
+========================================================== */
+
+[data-testid="stSidebarCollapseButton"] {
+
+    position:
+        relative;
+
+    z-index:
+        100001;
+
+    display:
+        flex !important;
+
+    visibility:
+        visible !important;
+
+    opacity:
+        1 !important;
+
+}
+
+
+[data-testid="stSidebarCollapseButton"] button {
+
+    display:
+        grid !important;
+
+    place-items:
+        center;
+
+}
+
+
+/* ==========================================================
+   OCULTAR SOLO LOS CONTROLES QUE NO SE USAN
+========================================================== */
+
+[data-testid="stToolbar"],
+[data-testid="stDecoration"],
+[data-testid="stStatusWidget"]:empty {
+
+    display:
+        none !important;
+
+}
+
+
+/* ==========================================================
+   AJUSTE DEL CONTENIDO PRINCIPAL
+========================================================== */
+
+[data-testid="stMainBlockContainer"] {
+
+    padding-top:
+        1.4rem;
+
+}
+
+
+/* ==========================================================
+   MÓVIL
+========================================================== */
+
+@media (max-width: 780px) {
+
+    header[data-testid="stHeader"] {
+
+        height:
+            3.5rem !important;
+
+    }
+
+
+    [data-testid="stSidebarCollapsedControl"] {
+
+        top:
+            .7rem !important;
+
+        left:
+            .7rem !important;
+
+    }
+
+
+    [data-testid="stSidebarCollapsedControl"] button {
+
+        width:
+            42px !important;
+
+        height:
+            42px !important;
+
+        border-radius:
+            14px !important;
+
+    }
+
+
+    [data-testid="stMainBlockContainer"] {
+
+        padding-top:
+            1.2rem;
+
+    }
+
+}

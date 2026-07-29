@@ -1,0 +1,874 @@
+/* ==========================================================
+   DERIVA AI - ANIMATIONS
+   Sistema global de movimiento y microinteracciones
+========================================================== */
+
+
+/* ==========================================================
+   VARIABLES DE ANIMACIÓN
+========================================================== */
+
+:root {
+
+    --ease-soft:
+        cubic-bezier(
+            .22,
+            1,
+            .36,
+            1
+        );
+
+    --ease-spring:
+        cubic-bezier(
+            .2,
+            .85,
+            .25,
+            1.15
+        );
+
+}
+
+
+/* ==========================================================
+   ENTRADAS GENERALES
+========================================================== */
+
+@keyframes derivaFadeIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
+
+@keyframes derivaFadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(18px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes derivaFadeDown {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-16px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes derivaFadeLeft {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(18px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0);
+
+    }
+
+}
+
+
+@keyframes derivaFadeRight {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(-18px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0);
+
+    }
+
+}
+
+
+@keyframes derivaScaleIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.96);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
+    }
+
+}
+
+
+/* ==========================================================
+   MOVIMIENTOS DECORATIVOS
+========================================================== */
+
+@keyframes derivaFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-8px);
+
+    }
+
+}
+
+
+@keyframes derivaFloatSoft {
+
+    0%,
+    100% {
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+    50% {
+
+        transform:
+            translate3d(0, -5px, 0);
+
+    }
+
+}
+
+
+@keyframes derivaPulse {
+
+    0%,
+    100% {
+
+        transform:
+            scale(1);
+
+        opacity: 1;
+
+    }
+
+    50% {
+
+        transform:
+            scale(1.035);
+
+        opacity: .92;
+
+    }
+
+}
+
+
+@keyframes derivaGlow {
+
+    0%,
+    100% {
+
+        box-shadow:
+            0 0 0
+            rgba(102, 133, 244, 0);
+
+    }
+
+    50% {
+
+        box-shadow:
+            0 0 34px
+            rgba(102, 133, 244, .20);
+
+    }
+
+}
+
+
+@keyframes derivaShimmer {
+
+    from {
+
+        transform:
+            translateX(-120%);
+
+    }
+
+    to {
+
+        transform:
+            translateX(220%);
+
+    }
+
+}
+
+
+@keyframes derivaGradientShift {
+
+    0% {
+
+        background-position:
+            0% 50%;
+
+    }
+
+    50% {
+
+        background-position:
+            100% 50%;
+
+    }
+
+    100% {
+
+        background-position:
+            0% 50%;
+
+    }
+
+}
+
+
+@keyframes derivaSpin {
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* ==========================================================
+   CLASES UTILITARIAS
+========================================================== */
+
+.animate-fade-in {
+
+    animation:
+        derivaFadeIn
+        .6s
+        var(--ease-soft)
+        both;
+
+}
+
+
+.animate-fade-up {
+
+    animation:
+        derivaFadeUp
+        .7s
+        var(--ease-soft)
+        both;
+
+}
+
+
+.animate-fade-down {
+
+    animation:
+        derivaFadeDown
+        .7s
+        var(--ease-soft)
+        both;
+
+}
+
+
+.animate-fade-left {
+
+    animation:
+        derivaFadeLeft
+        .7s
+        var(--ease-soft)
+        both;
+
+}
+
+
+.animate-fade-right {
+
+    animation:
+        derivaFadeRight
+        .7s
+        var(--ease-soft)
+        both;
+
+}
+
+
+.animate-scale-in {
+
+    animation:
+        derivaScaleIn
+        .6s
+        var(--ease-soft)
+        both;
+
+}
+
+
+.animate-float {
+
+    animation:
+        derivaFloat
+        4.2s
+        ease-in-out
+        infinite;
+
+}
+
+
+.animate-float-soft {
+
+    animation:
+        derivaFloatSoft
+        5.4s
+        ease-in-out
+        infinite;
+
+}
+
+
+.animate-pulse {
+
+    animation:
+        derivaPulse
+        2.8s
+        ease-in-out
+        infinite;
+
+}
+
+
+.animate-glow {
+
+    animation:
+        derivaGlow
+        3.6s
+        ease-in-out
+        infinite;
+
+}
+
+
+/* ==========================================================
+   RETARDOS ESCALONADOS
+========================================================== */
+
+.delay-1 {
+
+    animation-delay:
+        .08s;
+
+}
+
+
+.delay-2 {
+
+    animation-delay:
+        .16s;
+
+}
+
+
+.delay-3 {
+
+    animation-delay:
+        .24s;
+
+}
+
+
+.delay-4 {
+
+    animation-delay:
+        .32s;
+
+}
+
+
+.delay-5 {
+
+    animation-delay:
+        .40s;
+
+}
+
+
+.delay-6 {
+
+    animation-delay:
+        .48s;
+
+}
+
+
+/* ==========================================================
+   APARICIÓN DE BLOQUES DE STREAMLIT
+========================================================== */
+
+[data-testid="stMainBlockContainer"] > div > div > div {
+
+    animation:
+        derivaFadeIn
+        .45s
+        ease
+        both;
+
+}
+
+
+[data-testid="stVerticalBlock"] > div {
+
+    animation:
+        derivaFadeUp
+        .58s
+        var(--ease-soft)
+        both;
+
+}
+
+
+/* Escalonado visual para columnas */
+
+[data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(1) {
+
+    animation-delay:
+        .03s;
+
+}
+
+
+[data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(2) {
+
+    animation-delay:
+        .09s;
+
+}
+
+
+[data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(3) {
+
+    animation-delay:
+        .15s;
+
+}
+
+
+[data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(4) {
+
+    animation-delay:
+        .21s;
+
+}
+
+
+/* ==========================================================
+   TARJETAS
+========================================================== */
+
+.deriva-card,
+.glass-card,
+.content-card,
+.metric-card,
+.feature-card,
+.dashboard-card,
+.lesson-card,
+.practice-card,
+.result-card,
+.progress-card {
+
+    animation:
+        derivaFadeUp
+        .68s
+        var(--ease-soft)
+        both;
+
+}
+
+
+/* ==========================================================
+   HERO Y BLOQUES DESTACADOS
+========================================================== */
+
+.home-shell,
+.deriva-card-featured,
+.deriva-hero,
+.hero-card {
+
+    animation:
+        derivaScaleIn
+        .75s
+        var(--ease-soft)
+        both;
+
+}
+
+
+/* ==========================================================
+   SHIMMER
+========================================================== */
+
+.deriva-shimmer {
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+.deriva-shimmer::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 35%;
+
+    height: 100%;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, .42),
+            transparent
+        );
+
+    transform:
+        translateX(-120%);
+
+    animation:
+        derivaShimmer
+        2.8s
+        ease-in-out
+        infinite;
+
+}
+
+
+/* ==========================================================
+   GRADIENTE ANIMADO
+========================================================== */
+
+.deriva-gradient-animated {
+
+    background-size:
+        220%
+        220%;
+
+    animation:
+        derivaGradientShift
+        8s
+        ease
+        infinite;
+
+}
+
+
+/* ==========================================================
+   INDICADORES Y CARGA
+========================================================== */
+
+.deriva-loading-ring {
+
+    width:
+        34px;
+
+    height:
+        34px;
+
+    border:
+        3px solid
+        rgba(102, 133, 244, .18);
+
+    border-top-color:
+        var(--primary);
+
+    border-radius:
+        50%;
+
+    animation:
+        derivaSpin
+        .85s
+        linear
+        infinite;
+
+}
+
+
+[data-testid="stSpinner"] svg {
+
+    animation:
+        derivaSpin
+        1s
+        linear
+        infinite;
+
+}
+
+
+/* ==========================================================
+   MICROINTERACCIONES
+========================================================== */
+
+.deriva-hover-lift {
+
+    transition:
+        transform var(--transition-spring),
+        box-shadow var(--transition);
+
+}
+
+
+.deriva-hover-lift:hover {
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        var(--shadow-md);
+
+}
+
+
+.deriva-hover-scale {
+
+    transition:
+        transform var(--transition-spring);
+
+}
+
+
+.deriva-hover-scale:hover {
+
+    transform:
+        scale(1.025);
+
+}
+
+
+.deriva-hover-glow {
+
+    transition:
+        box-shadow var(--transition);
+
+}
+
+
+.deriva-hover-glow:hover {
+
+    box-shadow:
+        var(--shadow-primary);
+
+}
+
+
+/* ==========================================================
+   MODALES, DIÁLOGOS Y POPOVERS
+========================================================== */
+
+[data-testid="stDialog"] > div,
+[data-testid="stPopoverBody"] {
+
+    animation:
+        derivaScaleIn
+        .28s
+        var(--ease-soft)
+        both;
+
+}
+
+
+/* ==========================================================
+   TOOLTIP
+========================================================== */
+
+[role="tooltip"] {
+
+    animation:
+        derivaFadeIn
+        .18s
+        ease
+        both;
+
+}
+
+
+/* ==========================================================
+   NOTIFICACIONES
+========================================================== */
+
+[data-testid="stToast"] {
+
+    animation:
+        derivaFadeLeft
+        .42s
+        var(--ease-soft)
+        both;
+
+}
+
+
+/* ==========================================================
+   PROGRESO
+========================================================== */
+
+[data-testid="stProgress"] > div > div {
+
+    transition:
+        width .6s
+        var(--ease-soft);
+
+}
+
+
+/* ==========================================================
+   SIDEBAR
+========================================================== */
+
+.deriva-sidebar-brand {
+
+    animation:
+        derivaFadeDown
+        .62s
+        var(--ease-soft)
+        both;
+
+}
+
+
+.deriva-sidebar-profile {
+
+    animation:
+        derivaFadeRight
+        .62s
+        var(--ease-soft)
+        .08s
+        both;
+
+}
+
+
+[data-testid="stSidebarNav"] {
+
+    animation:
+        derivaFadeRight
+        .62s
+        var(--ease-soft)
+        .14s
+        both;
+
+}
+
+
+/* ==========================================================
+   RESPETO A PREFERENCIAS DEL USUARIO
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        scroll-behavior:
+            auto !important;
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .01ms !important;
+
+        transition-delay:
+            0ms !important;
+
+    }
+
+}

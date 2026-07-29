@@ -1,0 +1,100 @@
+/* ===========================
+   DERIVA AI - Tema Oficial
+   =========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+html, body, [class*="css"]{
+    font-family: "Poppins", sans-serif;
+}
+
+/* Fondo */
+.stApp{
+    background-color:#F8FCFF;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"]{
+    background:#EAF8FF;
+    border-right:1px solid #D9EDF9;
+}
+
+/* Títulos */
+h1{
+    color:#2D8ED6;
+    font-weight:700;
+}
+
+h2,h3{
+    color:#4A90E2;
+}
+
+/* Botones */
+.stButton > button{
+
+    background:#87CEEB;
+
+    color:white;
+
+    border:none;
+
+    border-radius:16px;
+
+    font-weight:600;
+
+    transition:0.3s;
+
+    width:100%;
+}
+
+.stButton > button:hover{
+
+    background:#6EC6E8;
+
+    transform:translateY(-2px);
+
+}
+
+/* Chat */
+.stChatMessage{
+
+    border-radius:18px;
+
+    background:white;
+
+    border:1px solid #E6EEF8;
+
+}
+
+/* Cajas */
+div[data-testid="stVerticalBlockBorderWrapper"]{
+
+    background:white;
+
+    border-radius:18px;
+
+    border:1px solid #E7EEF7;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.05);
+
+    padding:12px;
+
+}
+
+/* Expanders */
+details{
+
+    background:white;
+
+    border-radius:16px;
+
+    border:1px solid #E8EEF5;
+
+}
+
+/* Separadores */
+hr{
+
+    border-top:1px solid #DCEAF7;
+
+}

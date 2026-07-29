@@ -1,0 +1,40 @@
+{
+    "realizado": false,
+    "nivel": null,
+    "puntaje": 0,
+    "total": 10,
+    "fortalezas": [],
+    "mejorar": [],
+    "sesiones": 0,
+    "preguntas": 3,
+    "temas_estudiados": [
+        "General",
+        "Derivación de funciones polinómicas"
+    ],
+    "ultimo_tema": "Derivación de funciones polinómicas",
+    "ejercicios_generados": 1,
+    "ejercicios_revisados": 1,
+    "respuestas_correctas": 0,
+    "respuestas_parciales": 0,
+    "respuestas_incorrectas": 1,
+    "historial_practica": [
+        {
+            "fecha": "2026-07-27T23:35:58",
+            "tema": "General",
+            "nivel": "Avanzado",
+            "resultado": "incorrecta",
+            "ejercicio": "# Ejercicio\n\nUna partícula se mueve a lo largo del eje $x$ de tal manera que su posición en cualquier tiempo $t \\geq 0$ está dada por la función $x(t)$. Se sabe que la velocidad de la partícula está definida por la relación implícita:\n\n$$\nx^3 + \\ln(x \\cdot v) = t^2 + 1\n$$\n\ndonde $v = \\frac{dx}{dt}$ representa la velocidad instantánea de la partícula. Determine una expresión para la aceleración $a(t) = \\frac{dv}{dt}$ en términos de $x$ y $v$ en el instante en que la partícula se encuentra en la posición $x = 1$.\n\n# Datos conocidos\n\n*   Ecuación de movimiento: $x^3 + \\ln(x \\cdot v) = t^2 + 1$\n*   Velocidad: $v = \\frac{dx}{dt}$\n*   Aceleración: $a = \\frac{dv}{dt}$\n*   Condición específica: $x = 1$\n\n# Pista inicial\n\nRecuerde que debe derivar implícitamente la ecuación dada respecto a $t$. Dado que $x$ y $v$ son funciones de $t$, utilice la regla de la cadena y la regla del producto (o las propiedades de los logaritmos para simplificar previamente) para aislar el término de la aceleración $a = \\frac{dv}{dt}$ y luego sustituya el valor $x = 1$ para hallar la relación solicitada.\n\n# Dificultad\n\nAvanzado",
+            "respuesta": "creo que hay que derivar"
+        }
+    ],
+    "progreso_por_tema": {
+        "General": {
+            "generados": 1,
+            "revisados": 1,
+            "correctas": 0,
+            "parciales": 0,
+            "incorrectas": 1,
+            "ultimo_nivel": "Avanzado"
+        }
+    }
+}

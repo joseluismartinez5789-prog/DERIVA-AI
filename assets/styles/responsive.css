@@ -1,0 +1,945 @@
+/* ==========================================================
+   DERIVA AI - RESPONSIVE
+   Adaptación global para desktop, tablet y móvil
+========================================================== */
+
+
+/* ==========================================================
+   PANTALLAS GRANDES
+========================================================== */
+
+@media (min-width: 1440px) {
+
+    [data-testid="stMainBlockContainer"] {
+
+        max-width:
+            1380px;
+
+        padding-left:
+            2.5rem;
+
+        padding-right:
+            2.5rem;
+
+    }
+
+
+    .deriva-card-grid {
+
+        gap:
+            24px;
+
+    }
+
+
+    .deriva-hero,
+    .home-shell,
+    .deriva-card-featured {
+
+        padding:
+            44px;
+
+    }
+
+}
+
+
+/* ==========================================================
+   DESKTOP MEDIANO
+========================================================== */
+
+@media (max-width: 1280px) {
+
+    [data-testid="stMainBlockContainer"] {
+
+        padding-left:
+            2rem;
+
+        padding-right:
+            2rem;
+
+    }
+
+
+    .deriva-card-grid.cols-4 {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+    }
+
+
+    .deriva-hero-grid,
+    .home-hero-grid {
+
+        grid-template-columns:
+            1.2fr
+            .8fr;
+
+    }
+
+}
+
+
+/* ==========================================================
+   TABLET HORIZONTAL
+========================================================== */
+
+@media (max-width: 1024px) {
+
+    [data-testid="stMainBlockContainer"] {
+
+        padding-top:
+            1.6rem;
+
+        padding-left:
+            1.5rem;
+
+        padding-right:
+            1.5rem;
+
+    }
+
+
+    .deriva-card-grid,
+    .deriva-card-grid.cols-2,
+    .deriva-card-grid.cols-3,
+    .deriva-card-grid.cols-4 {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+    }
+
+
+    .deriva-hero-grid,
+    .home-hero-grid,
+    .dashboard-grid,
+    .split-layout {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .deriva-sidebar-profile {
+
+        padding:
+            14px;
+
+    }
+
+
+    .deriva-card-featured {
+
+        padding:
+            32px;
+
+    }
+
+
+    [data-testid="stHorizontalBlock"] {
+
+        gap:
+            1rem;
+
+    }
+
+}
+
+
+/* ==========================================================
+   TABLET VERTICAL
+========================================================== */
+
+@media (max-width: 820px) {
+
+    [data-testid="stMainBlockContainer"] {
+
+        padding-top:
+            1.3rem;
+
+        padding-left:
+            1.1rem;
+
+        padding-right:
+            1.1rem;
+
+    }
+
+
+    h1 {
+
+        font-size:
+            clamp(
+                2rem,
+                7vw,
+                3rem
+            );
+
+    }
+
+
+    h2 {
+
+        font-size:
+            clamp(
+                1.55rem,
+                5vw,
+                2.2rem
+            );
+
+    }
+
+
+    h3 {
+
+        font-size:
+            clamp(
+                1.2rem,
+                4vw,
+                1.65rem
+            );
+
+    }
+
+
+    .deriva-card,
+    .glass-card,
+    .content-card,
+    .feature-card,
+    .dashboard-card,
+    .lesson-card,
+    .practice-card,
+    .result-card,
+    .progress-card {
+
+        padding:
+            22px;
+
+    }
+
+
+    .deriva-card-featured {
+
+        padding:
+            28px;
+
+    }
+
+
+    .deriva-card-header {
+
+        gap:
+            12px;
+
+    }
+
+
+    .deriva-card-grid,
+    .deriva-card-grid.cols-2,
+    .deriva-card-grid.cols-3,
+    .deriva-card-grid.cols-4 {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .deriva-button-group {
+
+        align-items:
+            stretch;
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .deriva-button-group > * {
+
+        width:
+            100%;
+
+    }
+
+
+    [data-testid="stHorizontalBlock"] {
+
+        flex-wrap:
+            wrap;
+
+    }
+
+
+    [data-testid="column"] {
+
+        min-width:
+            100%;
+
+    }
+
+}
+
+
+/* ==========================================================
+   MÓVIL
+========================================================== */
+
+@media (max-width: 680px) {
+
+    [data-testid="stMainBlockContainer"] {
+
+        padding-top:
+            1rem;
+
+        padding-bottom:
+            2rem;
+
+        padding-left:
+            .85rem;
+
+        padding-right:
+            .85rem;
+
+    }
+
+
+    [data-testid="stAppViewContainer"] {
+
+        overflow-x:
+            hidden;
+
+    }
+
+
+    h1 {
+
+        margin-bottom:
+            .8rem;
+
+        font-size:
+            clamp(
+                1.85rem,
+                10vw,
+                2.55rem
+            );
+
+        line-height:
+            1.05;
+
+    }
+
+
+    h2 {
+
+        font-size:
+            clamp(
+                1.45rem,
+                7vw,
+                1.9rem
+            );
+
+    }
+
+
+    h3 {
+
+        font-size:
+            clamp(
+                1.15rem,
+                5.5vw,
+                1.45rem
+            );
+
+    }
+
+
+    p,
+    li,
+    label {
+
+        font-size:
+            14px;
+
+        line-height:
+            1.65;
+
+    }
+
+
+    .deriva-hero,
+    .home-shell,
+    .hero-card,
+    .deriva-card-featured {
+
+        padding:
+            24px
+            20px;
+
+        border-radius:
+            22px;
+
+    }
+
+
+    .deriva-hero-actions,
+    .home-hero-actions {
+
+        align-items:
+            stretch;
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .deriva-hero-actions > *,
+    .home-hero-actions > * {
+
+        width:
+            100%;
+
+    }
+
+
+    .deriva-card,
+    .glass-card,
+    .content-card,
+    .metric-card,
+    .feature-card,
+    .dashboard-card,
+    .lesson-card,
+    .practice-card,
+    .result-card,
+    .progress-card {
+
+        padding:
+            19px;
+
+        border-radius:
+            19px;
+
+    }
+
+
+    .deriva-card-title {
+
+        font-size:
+            1.15rem;
+
+    }
+
+
+    .deriva-card-description {
+
+        font-size:
+            13px;
+
+    }
+
+
+    .deriva-card-footer {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .deriva-card-icon,
+    .card-icon {
+
+        flex-basis:
+            48px;
+
+        width:
+            48px;
+
+        height:
+            48px;
+
+        border-radius:
+            15px;
+
+        font-size:
+            23px;
+
+    }
+
+
+    .metric-card {
+
+        min-height:
+            auto;
+
+    }
+
+
+    .metric-value {
+
+        font-size:
+            2rem;
+
+    }
+
+
+    div[data-testid="stButton"] > button,
+    div[data-testid="stDownloadButton"] > button,
+    div[data-testid="stPageLink"] a,
+    [data-testid="stFormSubmitButton"] > button {
+
+        width:
+            100%;
+
+        min-height:
+            48px;
+
+        padding:
+            0
+            16px;
+
+        border-radius:
+            14px;
+
+    }
+
+
+    [data-testid="stTextInput"] input,
+    [data-testid="stNumberInput"] input,
+    [data-testid="stTextArea"] textarea,
+    [data-baseweb="select"] > div {
+
+        min-height:
+            48px;
+
+        border-radius:
+            14px !important;
+
+    }
+
+
+    [data-testid="stTextArea"] textarea {
+
+        min-height:
+            130px;
+
+    }
+
+
+    [data-testid="stTabs"] [role="tablist"] {
+
+        gap:
+            6px;
+
+        overflow-x:
+            auto;
+
+        scrollbar-width:
+            none;
+
+    }
+
+
+    [data-testid="stTabs"] [role="tablist"]::-webkit-scrollbar {
+
+        display:
+            none;
+
+    }
+
+
+    [data-testid="stTabs"] button[role="tab"] {
+
+        flex:
+            0 0
+            auto;
+
+        min-height:
+            42px;
+
+        padding:
+            0
+            14px;
+
+        white-space:
+            nowrap;
+
+    }
+
+
+    [data-testid="stExpander"] details {
+
+        border-radius:
+            16px;
+
+    }
+
+
+    [data-testid="stDataFrame"],
+    [data-testid="stTable"] {
+
+        overflow-x:
+            auto;
+
+    }
+
+
+    table {
+
+        min-width:
+            620px;
+
+    }
+
+
+    pre,
+    code {
+
+        max-width:
+            100%;
+
+        overflow-x:
+            auto;
+
+    }
+
+
+    .deriva-sidebar-brand {
+
+        padding:
+            12px;
+
+    }
+
+
+    .deriva-sidebar-profile {
+
+        padding:
+            12px;
+
+        border-radius:
+            16px;
+
+    }
+
+}
+
+
+/* ==========================================================
+   MÓVILES PEQUEÑOS
+========================================================== */
+
+@media (max-width: 420px) {
+
+    [data-testid="stMainBlockContainer"] {
+
+        padding-left:
+            .7rem;
+
+        padding-right:
+            .7rem;
+
+    }
+
+
+    h1 {
+
+        font-size:
+            1.8rem;
+
+    }
+
+
+    h2 {
+
+        font-size:
+            1.42rem;
+
+    }
+
+
+    .deriva-card,
+    .glass-card,
+    .content-card,
+    .metric-card,
+    .feature-card,
+    .dashboard-card,
+    .lesson-card,
+    .practice-card,
+    .result-card,
+    .progress-card {
+
+        padding:
+            17px;
+
+        border-radius:
+            17px;
+
+    }
+
+
+    .deriva-card-featured,
+    .deriva-hero,
+    .home-shell {
+
+        padding:
+            21px
+            17px;
+
+    }
+
+
+    .deriva-card-header {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column-reverse;
+
+    }
+
+
+    .deriva-card-icon,
+    .card-icon {
+
+        width:
+            44px;
+
+        height:
+            44px;
+
+        flex-basis:
+            44px;
+
+        border-radius:
+            14px;
+
+    }
+
+
+    .deriva-badge {
+
+        padding:
+            6px
+            9px;
+
+        font-size:
+            10px;
+
+    }
+
+
+    .metric-value {
+
+        font-size:
+            1.8rem;
+
+    }
+
+}
+
+
+/* ==========================================================
+   ALTURA REDUCIDA
+========================================================== */
+
+@media (max-height: 720px) and (min-width: 821px) {
+
+    [data-testid="stMainBlockContainer"] {
+
+        padding-top:
+            1rem;
+
+        padding-bottom:
+            1.5rem;
+
+    }
+
+
+    .deriva-sidebar-profile {
+
+        padding-top:
+            11px;
+
+        padding-bottom:
+            11px;
+
+    }
+
+
+    .deriva-sidebar-footer {
+
+        margin-top:
+            1rem;
+
+    }
+
+}
+
+
+/* ==========================================================
+   ORIENTACIÓN HORIZONTAL EN MÓVIL
+========================================================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+    [data-testid="stMainBlockContainer"] {
+
+        padding-top:
+            .8rem;
+
+    }
+
+
+    .deriva-hero,
+    .home-shell,
+    .deriva-card-featured {
+
+        padding:
+            20px;
+
+    }
+
+
+    .deriva-card-grid {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+    }
+
+}
+
+
+/* ==========================================================
+   INTERACCIÓN TÁCTIL
+========================================================== */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .deriva-card:hover,
+    .glass-card:hover,
+    .content-card:hover,
+    .feature-card:hover,
+    .dashboard-card:hover,
+    .lesson-card:hover,
+    .practice-card:hover,
+    .result-card:hover,
+    .progress-card:hover {
+
+        transform:
+            none;
+
+    }
+
+
+    div[data-testid="stButton"] > button:hover,
+    div[data-testid="stDownloadButton"] > button:hover,
+    div[data-testid="stPageLink"] a:hover {
+
+        transform:
+            none;
+
+    }
+
+
+    button,
+    a,
+    input,
+    textarea,
+    select {
+
+        touch-action:
+            manipulation;
+
+    }
+
+}
+
+
+/* ==========================================================
+   IMPRESIÓN
+========================================================== */
+
+@media print {
+
+    [data-testid="stSidebar"],
+    [data-testid="stHeader"],
+    [data-testid="stToolbar"],
+    div[data-testid="stButton"],
+    div[data-testid="stDownloadButton"],
+    div[data-testid="stPageLink"] {
+
+        display:
+            none !important;
+
+    }
+
+
+    [data-testid="stMainBlockContainer"] {
+
+        max-width:
+            none;
+
+        padding:
+            0;
+
+    }
+
+
+    .deriva-card,
+    .glass-card,
+    .content-card,
+    .metric-card,
+    .feature-card,
+    .dashboard-card,
+    .lesson-card,
+    .practice-card,
+    .result-card,
+    .progress-card {
+
+        break-inside:
+            avoid;
+
+        border:
+            1px solid
+            #d7dce5;
+
+        background:
+            white;
+
+        box-shadow:
+            none;
+
+    }
+
+
+    body {
+
+        color:
+            #111827;
+
+        background:
+            white;
+
+    }
+
+}
