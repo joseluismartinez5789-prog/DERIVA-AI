@@ -900,11 +900,47 @@ else:
                 "estudiante_id"
             )
 
-            if estudiante_id:
-                guardar_resultado_diagnostico(
-                    estudiante_id,
-                    nivel,
+            if not estudiante_id:
+                st.error(
+                    "No se encontró el usuario autenticado. "
+                    "Cierra la sesión e inicia sesión nuevamente."
                 )
+                st.stop()
+
+            detalle_respuestas = []
+
+            for i, pregunta_item in enumerate(preguntas):
+                respuesta_usuario = (
+                    st.session_state.respuestas_diag.get(i)
+                )
+
+                detalle_respuestas.append(
+                    {
+                        "numero": i + 1,
+                        "pregunta": pregunta_item["pregunta"],
+                        "categoria": pregunta_item["categoria"],
+                        "respuesta_usuario": respuesta_usuario,
+                        "respuesta_correcta": pregunta_item["respuesta"],
+                        "correcta": (
+                            respuesta_usuario
+                            == pregunta_item["respuesta"]
+                        ),
+                    }
+                )
+
+            guardar_resultado_diagnostico(
+                estudiante_id=estudiante_id,
+                nivel=nivel,
+                puntaje=puntos,
+                total=len(preguntas),
+                respuestas=st.session_state.respuestas_diag,
+                fortalezas=list(dict.fromkeys(fortalezas)),
+                mejorar=list(dict.fromkeys(mejorar)),
+                plan_estudios=plan_estudios,
+                siguiente_area=siguiente_area,
+                siguiente_leccion=siguiente_leccion,
+                detalle_respuestas=detalle_respuestas,
+            )
 
 
             st.session_state.resultado = datos
