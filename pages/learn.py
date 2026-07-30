@@ -2,6 +2,16 @@ import streamlit as st
 from utils.theme import aplicar_tema
 from data.temas import TEMAS
 from services.learn_service import generar_teoria
+from services.session_service import (
+    establecer,
+    establecer_tema,
+    guardar_leccion,
+    inicializar_estado,
+    limpiar_leccion,
+    navegar_a,
+    preparar_nova,
+    preparar_practica,
+)
 from services.diagnostic_service import (
     obtener_nivel,
     diagnostico_completado,
@@ -25,6 +35,7 @@ st.set_page_config(
 )
 
 aplicar_tema()
+inicializar_estado()
 
 
 # ==========================================================
@@ -42,7 +53,7 @@ if not diagnostico_completado():
         use_container_width=True,
         key="ir_diagnostico_desde_aprender",
     ):
-        st.switch_page("pages/diagnostic.py")
+        navegar_a("pages/diagnostic.py")
 
     st.stop()
 
@@ -69,9 +80,9 @@ if not datos_diagnostico:
         use_container_width=True,
         key="repetir_diagnostico_desde_aprender",
     ):
-        st.session_state.permitir_repetir_diagnostico = True
-        st.session_state.evaluacion_iniciada = False
-        st.switch_page("pages/diagnostic.py")
+        establecer("permitir_repetir_diagnostico", True)
+        establecer("evaluacion_iniciada", False)
+        navegar_a("pages/diagnostic.py")
 
     st.stop()
 
@@ -83,6 +94,12 @@ plan_diagnostico = datos_diagnostico.get("plan_estudios", [])
 
 progreso = cargar_progreso()
 lecciones_completadas = progreso.get("lecciones_completadas", [])
+
+TEMAS_VALIDOS = {
+    tema
+    for lista_temas in TEMAS.values()
+    for tema in lista_temas
+}
 
 
 # ==========================================================
@@ -102,11 +119,7 @@ MAPA_RECOMENDACIONES = {
 
 def construir_ruta_personalizada():
     ruta = []
-    temas_validos = {
-        tema
-        for lista_temas in TEMAS.values()
-        for tema in lista_temas
-    }
+    temas_validos = TEMAS_VALIDOS
 
     for modulo in plan_diagnostico:
         if not isinstance(modulo, dict):
@@ -138,14 +151,49 @@ def obtener_siguiente_tema(ruta):
 
 
 def generar_leccion(tema):
-    """Genera la lección y la guarda en el estado de Streamlit."""
-    st.session_state["tema_actual"] = tema
-    st.session_state.pop("teoria", None)
-
+    """Genera una lección y conserva el estado antes de redibujar."""
+    tema = establecer_tema(tema)
+    limpiar_leccion()
     registrar_leccion_iniciada(tema)
 
-    with st.spinner("DERIVA AI está preparando tu lección personalizada..."):
-        st.session_state["teoria"] = generar_teoria(tema, nivel)
+    try:
+        with st.spinner(
+            "DERIVA AI está preparando tu lección personalizada..."
+        ):
+            teoria_generada = generar_teoria(
+                tema,
+                nivel,
+            )
+
+        if not teoria_generada:
+            raise RuntimeError(
+                "El servicio no devolvió contenido para la lección."
+            )
+
+        teoria_limpia = str(teoria_generada).strip()
+
+        if not teoria_limpia or teoria_limpia.lower() == "none":
+            raise RuntimeError(
+                "El servicio devolvió una lección vacía."
+            )
+
+        guardar_leccion(
+            tema,
+            teoria_limpia,
+        )
+        return True
+
+    except Exception as error:
+        limpiar_leccion()
+        st.error(
+            "No fue posible generar la lección en este momento. "
+            "Tu tema y tu progreso permanecen guardados."
+        )
+        with st.expander("Ver detalle técnico"):
+            st.code(
+                f"{type(error).__name__}: {error}"
+            )
+        return False
 
 
 ruta_personalizada = construir_ruta_personalizada()
@@ -415,14 +463,15 @@ if siguiente_tema:
         unsafe_allow_html=True,
     )
 
-    if st.button(
-        "🚀 Iniciar lección recomendada",
-        use_container_width=True,
-        type="primary",
-        key="iniciar_leccion_recomendada",
-    ):
-        generar_leccion(siguiente_tema)
-        st.rerun()
+    if not st.session_state.get("teoria"):
+        if st.button(
+            "🚀 Iniciar lección recomendada",
+            use_container_width=True,
+            type="primary",
+            key="iniciar_leccion_recomendada",
+        ):
+            if generar_leccion(siguiente_tema):
+                st.rerun()
 else:
     st.success(
         "🎉 Ya completaste todos los temas de tu ruta personalizada."
@@ -462,8 +511,9 @@ for indice, unidad in enumerate(unidades):
             key=f"abrir_unidad_{indice}",
             type="primary" if unidad_seleccionada else "secondary",
         ):
-            st.session_state["unidad_abierta"] = (
-                None if unidad_seleccionada else unidad
+            establecer(
+                "unidad_abierta",
+                None if unidad_seleccionada else unidad,
             )
             st.rerun()
 
@@ -499,19 +549,23 @@ if unidad_abierta:
             use_container_width=True,
             key=f"seleccionar_tema_{indice_tema}_{unidad_abierta}",
         ):
-            generar_leccion(tema_unidad)
-            st.rerun()
+            if generar_leccion(tema_unidad):
+                st.rerun()
 
 
 # ==========================================================
 # MOSTRAR LA LECCIÓN GENERADA
 # ==========================================================
 
+teoria_actual = st.session_state.get("teoria")
+tema_actual = st.session_state.get("tema_actual")
+
 if (
-    "tema_actual" in st.session_state
-    and "teoria" in st.session_state
+    tema_actual in TEMAS_VALIDOS
+    and teoria_actual
+    and str(teoria_actual).strip().lower() != "none"
 ):
-    tema = st.session_state["tema_actual"]
+    tema = tema_actual
 
     st.divider()
 
@@ -526,7 +580,7 @@ if (
         unsafe_allow_html=True,
     )
 
-    st.markdown(st.session_state["teoria"])
+    st.markdown(teoria_actual)
     st.divider()
 
     if tema in lecciones_completadas:
@@ -540,7 +594,7 @@ if (
             key="completar_leccion",
         ):
             marcar_leccion_completada(tema)
-            st.session_state.pop("teoria", None)
+            limpiar_leccion()
             st.rerun()
 
     st.markdown("### Continúa aprendiendo")
@@ -552,9 +606,11 @@ if (
             use_container_width=True,
             key="ir_tutor",
         ):
-            st.session_state["desde_ruta_aprendizaje"] = True
-            st.session_state["tema_actual"] = tema
-            st.switch_page("pages/chat.py")
+            preparar_nova(
+                tema,
+                desde_ruta=True,
+            )
+            navegar_a("pages/chat.py")
 
     with columna_practica:
         if st.button(
@@ -562,8 +618,8 @@ if (
             use_container_width=True,
             key="practicar_tema",
         ):
-            st.session_state["tema_actual"] = tema
-            st.switch_page("pages/practice.py")
+            preparar_practica(tema)
+            navegar_a("pages/practice.py")
 
     siguiente_despues = None
 

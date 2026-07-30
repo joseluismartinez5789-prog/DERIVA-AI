@@ -4,6 +4,10 @@ import streamlit as st
 
 from services.database_service import inicializar_base_datos
 from services.diagnostic_service import diagnostico_completado
+from services.session_service import (
+    cerrar_sesion_interna,
+    inicializar_estado,
+)
 
 
 st.set_page_config(
@@ -53,28 +57,7 @@ def cargar_css():
 
 def cerrar_sesion():
     """Cierra la sesión interna y también la sesión de Google."""
-    claves = [
-        "rol",
-        "estudiante_id",
-        "estudiante_nombre",
-        "estudiante_correo",
-        "estudiante_tipo",
-        "nivel",
-        "diagnostico_completo",
-        "curso_id",
-        "curso_nombre",
-        "curso_seccion",
-        "profesor_nombre",
-        "profesor_id",
-        "profesor_correo",
-        "ultimo_curso_creado",
-    ]
-
-    for clave in claves:
-        st.session_state.pop(
-            clave,
-            None,
-        )
+    cerrar_sesion_interna()
 
     usuario_google_activo = bool(
         getattr(
@@ -201,6 +184,7 @@ def mostrar_pie_sidebar():
     )
 
 
+inicializar_estado()
 inicializar_base_datos()
 cargar_css()
 
