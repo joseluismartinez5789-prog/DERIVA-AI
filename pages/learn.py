@@ -1,5 +1,4 @@
 import streamlit as st
-
 from utils.theme import aplicar_tema
 from data.temas import TEMAS
 from services.learn_service import generar_teoria
@@ -8,7 +7,6 @@ from services.diagnostic_service import (
     diagnostico_completado,
     obtener_ultimo_diagnostico,
 )
-
 from services.progress_service import (
     cargar_progreso,
     marcar_leccion_completada,
@@ -23,7 +21,7 @@ from services.progress_service import (
 st.set_page_config(
     page_title="Aprender",
     page_icon="📚",
-    layout="wide"
+    layout="wide",
 )
 
 aplicar_tema()
@@ -34,7 +32,6 @@ aplicar_tema()
 # ==========================================================
 
 if not diagnostico_completado():
-
     st.warning(
         "🔒 Debes completar la evaluación diagnóstica antes de acceder "
         "a tu ruta de aprendizaje."
@@ -43,18 +40,15 @@ if not diagnostico_completado():
     if st.button(
         "📝 Ir a la evaluación diagnóstica",
         use_container_width=True,
-        key="ir_diagnostico_desde_aprender"
+        key="ir_diagnostico_desde_aprender",
     ):
-
-        st.switch_page(
-            "pages/diagnostic.py"
-        )
+        st.switch_page("pages/diagnostic.py")
 
     st.stop()
 
 
 # ==========================================================
-# CARGAR DIAGNÓSTICO Y PROGRESO PERSISTENTE
+# CARGAR DIAGNÓSTICO Y PROGRESO
 # ==========================================================
 
 estudiante_id = st.session_state.get("estudiante_id")
@@ -69,6 +63,7 @@ if not datos_diagnostico:
         "Realiza nuevamente la evaluación para crear tu ruta "
         "personalizada y conservarla después de cerrar sesión."
     )
+
     if st.button(
         "📝 Ir al diagnóstico",
         use_container_width=True,
@@ -77,7 +72,9 @@ if not datos_diagnostico:
         st.session_state.permitir_repetir_diagnostico = True
         st.session_state.evaluacion_iniciada = False
         st.switch_page("pages/diagnostic.py")
+
     st.stop()
+
 
 nivel = datos_diagnostico.get("nivel", obtener_nivel())
 areas_a_reforzar = datos_diagnostico.get("mejorar", [])
@@ -89,7 +86,7 @@ lecciones_completadas = progreso.get("lecciones_completadas", [])
 
 
 # ==========================================================
-# MAPA ENTRE DIAGNÓSTICO Y TEMAS REALES
+# MAPA ENTRE DIAGNÓSTICO Y TEMAS
 # ==========================================================
 
 MAPA_RECOMENDACIONES = {
@@ -99,17 +96,22 @@ MAPA_RECOMENDACIONES = {
     "Continuidad gráfica": "1.4 Continuidad y límites laterales",
     "Definición de derivada": "2.2 Definición de derivada",
     "Derivadas": "2.3 Reglas básicas de derivación",
-    "Aplicaciones": "3.1 Razones relacionadas"
+    "Aplicaciones": "3.1 Razones relacionadas",
 }
 
 
 def construir_ruta_personalizada():
     ruta = []
-    temas_validos = {tema for lista in TEMAS.values() for tema in lista}
+    temas_validos = {
+        tema
+        for lista_temas in TEMAS.values()
+        for tema in lista_temas
+    }
 
     for modulo in plan_diagnostico:
         if not isinstance(modulo, dict):
             continue
+
         for leccion in modulo.get("lecciones", []):
             if leccion in temas_validos and leccion not in ruta:
                 ruta.append(leccion)
@@ -128,20 +130,45 @@ def construir_ruta_personalizada():
     return ruta
 
 
-def obtener_siguiente_tema():
-    for tema in ruta_personalizada:
+def obtener_siguiente_tema(ruta):
+    for tema in ruta:
         if tema not in lecciones_completadas:
             return tema
     return None
 
 
+def generar_leccion(tema):
+    """Genera la lección y la guarda en el estado de Streamlit."""
+    st.session_state["tema_actual"] = tema
+    st.session_state.pop("teoria", None)
+
+    registrar_leccion_iniciada(tema)
+
+    with st.spinner("DERIVA AI está preparando tu lección personalizada..."):
+        st.session_state["teoria"] = generar_teoria(tema, nivel)
+
+
 ruta_personalizada = construir_ruta_personalizada()
-siguiente_tema = obtener_siguiente_tema()
+siguiente_tema = obtener_siguiente_tema(ruta_personalizada)
+
 total_ruta = len(ruta_personalizada)
 completadas_ruta = sum(
-    1 for tema in ruta_personalizada if tema in lecciones_completadas
+    1 for tema in ruta_personalizada
+    if tema in lecciones_completadas
 )
-porcentaje_ruta = completadas_ruta / total_ruta if total_ruta else 0
+porcentaje_ruta = (
+    completadas_ruta / total_ruta
+    if total_ruta
+    else 0
+)
+
+
+# ==========================================================
+# ESTADO DE LA INTERFAZ
+# ==========================================================
+
+if "unidad_abierta" not in st.session_state:
+    st.session_state["unidad_abierta"] = None
 
 
 # ==========================================================
@@ -151,83 +178,18 @@ porcentaje_ruta = completadas_ruta / total_ruta if total_ruta else 0
 st.markdown(
     """
     <style>
-    .learn-page-wrap {
-        position: relative;
-        overflow: hidden;
-        padding-bottom: 30px;
-    }
-
-    .floating-bubble {
-        position: fixed;
-        border-radius: 50%;
-        filter: blur(2px);
-        opacity: .32;
-        z-index: 0;
-        animation: floatBubble 9s ease-in-out infinite;
-        pointer-events: none;
-    }
-
-    .bubble-blue {
-        width: 190px;
-        height: 190px;
-        top: 110px;
-        right: 40px;
-        background: radial-gradient(
-            circle at 30% 30%,
-            rgba(126,221,255,.85),
-            rgba(126,221,255,.08)
-        );
-    }
-
-    .bubble-pink {
-        width: 150px;
-        height: 150px;
-        bottom: 80px;
-        left: 25px;
-        background: radial-gradient(
-            circle at 30% 30%,
-            rgba(255,181,218,.82),
-            rgba(255,181,218,.08)
-        );
-        animation-delay: 1.5s;
-    }
-
-    .bubble-lilac {
-        width: 135px;
-        height: 135px;
-        top: 420px;
-        right: 180px;
-        background: radial-gradient(
-            circle at 30% 30%,
-            rgba(194,170,255,.82),
-            rgba(194,170,255,.08)
-        );
-        animation-delay: 3s;
-    }
-
-    @keyframes floatBubble {
-        0%, 100% {
-            transform: translateY(0px) translateX(0px);
-        }
-        50% {
-            transform: translateY(-16px) translateX(8px);
-        }
-    }
-
     .learn-hero {
-        position: relative;
-        z-index: 2;
         background: linear-gradient(
             135deg,
-            rgba(255,255,255,.78),
-            rgba(220,245,255,.68),
-            rgba(241,224,255,.64)
+            rgba(255,255,255,.82),
+            rgba(220,245,255,.72),
+            rgba(241,224,255,.70)
         );
-        border: 1px solid rgba(255,255,255,.88);
+        border: 1px solid rgba(255,255,255,.92);
         border-radius: 32px;
         padding: 36px;
         box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.75),
+            inset 0 1px 0 rgba(255,255,255,.78),
             0 20px 50px rgba(74,105,190,.12);
         backdrop-filter: blur(22px);
         margin-bottom: 26px;
@@ -236,7 +198,7 @@ st.markdown(
     .hero-kicker {
         color: #5D79E6;
         font-size: 14px;
-        font-weight: 800;
+        font-weight: 900;
         text-transform: uppercase;
         letter-spacing: 1.2px;
         margin-bottom: 10px;
@@ -245,7 +207,7 @@ st.markdown(
     .hero-title {
         color: #233755;
         font-size: 40px;
-        font-weight: 800;
+        font-weight: 900;
         line-height: 1.2;
         margin-bottom: 10px;
     }
@@ -254,7 +216,7 @@ st.markdown(
         color: #60758D;
         font-size: 17px;
         line-height: 1.65;
-        max-width: 850px;
+        max-width: 900px;
     }
 
     .hero-metrics {
@@ -265,115 +227,43 @@ st.markdown(
     }
 
     .metric-pill {
-        background: rgba(255,255,255,.60);
-        border: 1px solid rgba(255,255,255,.86);
+        background: rgba(255,255,255,.66);
+        border: 1px solid rgba(255,255,255,.90);
         border-radius: 999px;
         padding: 10px 16px;
         color: #4B6280;
         font-size: 14px;
-        font-weight: 700;
+        font-weight: 800;
         box-shadow: 0 8px 18px rgba(74,105,190,.07);
     }
 
     .section-title {
         color: #253A58;
-        font-size: 26px;
-        font-weight: 800;
-        margin: 8px 0 16px 0;
-    }
-
-    .route-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 18px;
-        margin-bottom: 24px;
-    }
-
-    .route-card {
-        position: relative;
-        z-index: 2;
-        background: linear-gradient(
-            145deg,
-            rgba(255,255,255,.72),
-            rgba(229,244,255,.58)
-        );
-        border: 1px solid rgba(255,255,255,.88);
-        border-radius: 26px;
-        padding: 24px;
-        min-height: 210px;
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.74),
-            0 14px 32px rgba(74,105,190,.10);
-        backdrop-filter: blur(18px);
-        transition: transform .22s ease, box-shadow .22s ease;
-    }
-
-    .route-card:hover {
-        transform: translateY(-5px);
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.80),
-            0 20px 40px rgba(74,105,190,.15);
-    }
-
-    .route-index {
-        display: inline-flex;
-        width: 42px;
-        height: 42px;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        background: linear-gradient(
-            135deg,
-            #B8E7FF,
-            #E7C9FF
-        );
-        color: #3E5FD6;
-        font-weight: 800;
-        margin-bottom: 18px;
-        box-shadow: 0 8px 18px rgba(79,111,232,.12);
-    }
-
-    .route-topic {
-        color: #2B3F5F;
-        font-size: 19px;
-        line-height: 1.45;
-        font-weight: 800;
-        margin-bottom: 12px;
-    }
-
-    .route-status {
-        display: inline-block;
-        margin-top: 10px;
-        border-radius: 999px;
-        padding: 7px 12px;
-        background: rgba(232,241,255,.88);
-        color: #5871D9;
-        font-size: 13px;
-        font-weight: 700;
+        font-size: 28px;
+        font-weight: 900;
+        margin: 18px 0 18px 0;
     }
 
     .next-card {
-        position: relative;
-        z-index: 2;
         background: linear-gradient(
             135deg,
-            rgba(198,235,255,.88),
-            rgba(255,211,232,.76),
-            rgba(222,205,255,.76)
+            rgba(198,235,255,.92),
+            rgba(255,211,232,.80),
+            rgba(222,205,255,.82)
         );
-        border: 1px solid rgba(255,255,255,.90);
+        border: 1px solid rgba(255,255,255,.94);
         border-radius: 30px;
         padding: 30px;
         box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.80),
+            inset 0 1px 0 rgba(255,255,255,.84),
             0 18px 42px rgba(79,111,232,.14);
-        margin: 22px 0 28px 0;
+        margin: 22px 0 18px 0;
     }
 
     .next-label {
         color: #556FE0;
         font-size: 14px;
-        font-weight: 800;
+        font-weight: 900;
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-bottom: 8px;
@@ -382,7 +272,7 @@ st.markdown(
     .next-title {
         color: #223755;
         font-size: 27px;
-        font-weight: 800;
+        font-weight: 900;
         line-height: 1.35;
         margin-bottom: 8px;
     }
@@ -392,20 +282,46 @@ st.markdown(
         font-size: 15px;
     }
 
-    div.stButton > button {
-        border-radius: 999px !important;
-        min-height: 54px !important;
-        font-weight: 800 !important;
-        border: 1px solid rgba(255,255,255,.92) !important;
+    .selected-unit {
         background: linear-gradient(
             135deg,
-            rgba(190,233,255,.94),
-            rgba(237,207,255,.92)
+            rgba(220,246,240,.94),
+            rgba(221,240,255,.94)
+        );
+        border: 1px solid rgba(255,255,255,.94);
+        border-radius: 22px;
+        padding: 18px 22px;
+        color: #526B86;
+        font-size: 17px;
+        font-weight: 800;
+        margin: 18px 0;
+        box-shadow: 0 10px 24px rgba(74,105,190,.08);
+    }
+
+    .lesson-panel {
+        background: rgba(255,255,255,.74);
+        border: 1px solid rgba(255,255,255,.92);
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: 0 18px 40px rgba(74,105,190,.10);
+        margin-top: 24px;
+    }
+
+    div.stButton > button {
+        border-radius: 22px !important;
+        min-height: 62px !important;
+        font-size: 17px !important;
+        font-weight: 900 !important;
+        border: 1px solid rgba(255,255,255,.94) !important;
+        background: linear-gradient(
+            135deg,
+            rgba(207,239,255,.98),
+            rgba(235,213,255,.97)
         ) !important;
-        color: #3B57C8 !important;
+        color: #334FB7 !important;
         box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.85),
-            0 10px 24px rgba(67,111,218,.16) !important;
+            inset 0 1px 0 rgba(255,255,255,.88),
+            0 12px 26px rgba(67,111,218,.15) !important;
         transition:
             transform .20s ease,
             box-shadow .20s ease,
@@ -415,42 +331,43 @@ st.markdown(
     div.stButton > button:hover {
         transform: translateY(-3px) scale(1.01) !important;
         box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.92),
-            0 16px 30px rgba(67,111,218,.22) !important;
+            inset 0 1px 0 rgba(255,255,255,.94),
+            0 17px 32px rgba(67,111,218,.23) !important;
         filter: brightness(1.03);
     }
 
-    div.stButton > button:active {
-        transform: translateY(0) scale(.99) !important;
+    div.stButton > button[kind="primary"] {
+        min-height: 76px !important;
+        border-radius: 24px !important;
+        background: linear-gradient(
+            135deg,
+            #6D8CFF,
+            #9A5CF6
+        ) !important;
+        color: white !important;
+        font-size: 22px !important;
+        box-shadow:
+            0 16px 34px rgba(91,83,192,.28) !important;
     }
 
-    div[data-testid="stExpander"] {
-        border-radius: 22px !important;
-        border: 1px solid rgba(255,255,255,.85) !important;
-        background: rgba(255,255,255,.54) !important;
-        box-shadow: 0 10px 24px rgba(74,105,190,.08) !important;
-        overflow: hidden;
-        margin-bottom: 12px;
+    div.stButton > button[kind="primary"] * {
+        color: white !important;
+        font-size: 22px !important;
+        font-weight: 950 !important;
     }
 
     @media (max-width: 800px) {
         .hero-title {
-            font-size: 32px;
+            font-size: 31px;
         }
 
         .learn-hero {
-            padding: 26px;
+            padding: 25px;
         }
     }
     </style>
-
-    <div class="learn-page-wrap">
-        <div class="floating-bubble bubble-blue"></div>
-        <div class="floating-bubble bubble-pink"></div>
-        <div class="floating-bubble bubble-lilac"></div>
-    </div>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 
@@ -458,184 +375,164 @@ st.markdown(
 # ENCABEZADO
 # ==========================================================
 
-st.markdown(
-    f"""<div class="learn-hero">
-    <div class="hero-kicker">Ruta personalizada</div>
-    <div class="hero-title">📚 Aprende con un plan hecho para ti</div>
-    <div class="hero-subtitle">
-        DERIVA AI organizó esta ruta utilizando tu evaluación diagnóstica.
-        Puedes comenzar por la recomendación principal o explorar todas las unidades.
-    </div>
-    <div class="hero-metrics">
-        <div class="metric-pill">🎯 Nivel: {nivel}</div>
-        <div class="metric-pill">🧭 {len(ruta_personalizada)} temas recomendados</div>
-        <div class="metric-pill">✅ {completadas_ruta} lecciones completadas</div>
-        <div class="metric-pill">💪 {len(fortalezas)} fortalezas detectadas</div>
-    </div>
-    </div>""",
-    unsafe_allow_html=True
+html_encabezado = (
+    f'<div class="learn-hero">'
+    f'<div class="hero-kicker">RUTA PERSONALIZADA</div>'
+    f'<div class="hero-title">📚 Aprende con un plan hecho para ti</div>'
+    f'<div class="hero-subtitle">'
+    f'DERIVA AI organizó esta ruta utilizando tu evaluación diagnóstica. '
+    f'Puedes comenzar por la recomendación principal o explorar las unidades. '
+    f'Al elegir un tema, la lección se genera directamente en esta página.'
+    f'</div>'
+    f'<div class="hero-metrics">'
+    f'<div class="metric-pill">🎯 Nivel: {nivel}</div>'
+    f'<div class="metric-pill">🧭 {len(ruta_personalizada)} temas recomendados</div>'
+    f'<div class="metric-pill">✅ {completadas_ruta} lecciones completadas</div>'
+    f'<div class="metric-pill">💪 {len(fortalezas)} fortalezas detectadas</div>'
+    f'</div>'
+    f'</div>'
 )
 
-
-st.sidebar.success(
-    f"🎯 Nivel detectado:\n\n{nivel}"
-)
-
-
 st.markdown(
-    f"**Progreso de la ruta: {completadas_ruta} de {total_ruta} lecciones**"
-)
-st.progress(porcentaje_ruta)
-
-
-# ==========================================================
-# RUTA PERSONALIZADA
-# ==========================================================
-
-st.markdown(
-    '<div class="section-title">🧭 Tu ruta recomendada</div>',
-    unsafe_allow_html=True
-)
-
-tarjetas_ruta = []
-
-for indice, tema in enumerate(ruta_personalizada, start=1):
-
-    if tema in lecciones_completadas:
-        estado = "✅ Completada"
-    elif tema == siguiente_tema:
-        estado = "🚀 Continúa aquí"
-    else:
-        estado = "Pendiente"
-
-    tarjetas_ruta.append(
-        f"""<div class="route-card">
-        <div class="route-index">{indice}</div>
-        <div class="route-topic">{tema}</div>
-        <div class="route-status">{estado}</div>
-        </div>"""
-    )
-
-st.markdown(
-    f'<div class="route-grid">{"".join(tarjetas_ruta)}</div>',
-    unsafe_allow_html=True
+    html_encabezado,
+    unsafe_allow_html=True,
 )
 
 
 # ==========================================================
-# SIGUIENTE PASO
+# INICIAR LECCIÓN RECOMENDADA
 # ==========================================================
 
 if siguiente_tema:
-
     st.markdown(
-        f"""<div class="next-card">
-        <div class="next-label">Siguiente paso recomendado</div>
-        <div class="next-title">✨ {siguiente_tema}</div>
-        <div class="next-subtitle">
-            Esta lección coincide directamente con las áreas detectadas
-            en tu evaluación diagnóstica.
-        </div>
-        </div>""",
-        unsafe_allow_html=True
+        f'<div class="next-card">'
+        f'<div class="next-label">Tu siguiente paso recomendado</div>'
+        f'<div class="next-title">📘 {siguiente_tema}</div>'
+        f'<div class="next-subtitle">'
+        f'Esta lección fue seleccionada según tu diagnóstico y progreso.'
+        f'</div>'
+        f'</div>',
+        unsafe_allow_html=True,
     )
 
     if st.button(
         "🚀 Iniciar lección recomendada",
         use_container_width=True,
-        key="iniciar_recomendada"
+        type="primary",
+        key="iniciar_leccion_recomendada",
     ):
-
-        st.session_state["tema_actual"] = siguiente_tema
-        st.session_state.pop("teoria", None)
-        registrar_leccion_iniciada(siguiente_tema)
+        generar_leccion(siguiente_tema)
         st.rerun()
-
 else:
-    st.success("🎉 Completaste todos los temas de tu ruta recomendada.")
+    st.success(
+        "🎉 Ya completaste todos los temas de tu ruta personalizada."
+    )
+
 
 
 # ==========================================================
 # EXPLORAR TODAS LAS UNIDADES
 # ==========================================================
 
-st.divider()
-
 st.markdown(
     '<div class="section-title">📖 Explorar todas las unidades</div>',
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
-for unidad, lista_temas in TEMAS.items():
+unidades = list(TEMAS.keys())
+iconos_unidades = ["🌱", "⚡", "🚀"]
 
-    with st.expander(
-        f"📘 {unidad}"
+columnas_unidades = st.columns(len(unidades))
+
+for indice, unidad in enumerate(unidades):
+    with columnas_unidades[indice]:
+        cantidad_temas = len(TEMAS[unidad])
+        unidad_seleccionada = (
+            st.session_state["unidad_abierta"] == unidad
+        )
+        icono = (
+            iconos_unidades[indice]
+            if indice < len(iconos_unidades)
+            else "📘"
+        )
+
+        if st.button(
+            f"{icono} {unidad}\n\n{cantidad_temas} temas disponibles",
+            use_container_width=True,
+            key=f"abrir_unidad_{indice}",
+            type="primary" if unidad_seleccionada else "secondary",
+        ):
+            st.session_state["unidad_abierta"] = (
+                None if unidad_seleccionada else unidad
+            )
+            st.rerun()
+
+
+# ==========================================================
+# TEMAS DE LA UNIDAD SELECCIONADA
+# ==========================================================
+
+unidad_abierta = st.session_state["unidad_abierta"]
+
+if unidad_abierta:
+    st.markdown(
+        f'<div class="selected-unit">'
+        f'📘 Unidad seleccionada: {unidad_abierta}'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("### Selecciona el tema que deseas estudiar")
+
+    for indice_tema, tema_unidad in enumerate(
+        TEMAS.get(unidad_abierta, [])
     ):
+        if tema_unidad in lecciones_completadas:
+            estado = "✅"
+        elif tema_unidad == siguiente_tema:
+            estado = "✨"
+        else:
+            estado = "📖"
 
-        for tema in lista_temas:
-
-            if st.button(
-                tema,
-                key=f"tema_{unidad}_{tema}",
-                use_container_width=True
-            ):
-
-                st.session_state["tema_actual"] = tema
-                st.session_state.pop("teoria", None)
-                registrar_leccion_iniciada(tema)
-                st.rerun()
+        if st.button(
+            f"{estado} {tema_unidad}",
+            use_container_width=True,
+            key=f"seleccionar_tema_{indice_tema}_{unidad_abierta}",
+        ):
+            generar_leccion(tema_unidad)
+            st.rerun()
 
 
 # ==========================================================
-# MOSTRAR TEMA SELECCIONADO
+# MOSTRAR LA LECCIÓN GENERADA
 # ==========================================================
 
-if "tema_actual" in st.session_state:
-
+if (
+    "tema_actual" in st.session_state
+    and "teoria" in st.session_state
+):
     tema = st.session_state["tema_actual"]
 
     st.divider()
 
-    st.success(
-        f"✅ Tema seleccionado: {tema}"
-    )
-
-    st.header(
-        f"📖 {tema}"
-    )
-
-    if st.button(
-        "🚀 Iniciar lección",
-        use_container_width=True,
-        key="iniciar_leccion"
-    ):
-
-        with st.spinner(
-            "DERIVA AI está preparando la lección..."
-        ):
-
-            teoria = generar_teoria(
-                tema,
-                nivel
-            )
-
-        st.session_state["teoria"] = teoria
-
-
-# ==========================================================
-# MOSTRAR TEORÍA GENERADA
-# ==========================================================
-
-if "teoria" in st.session_state:
-
     st.markdown(
-        st.session_state["teoria"]
+        f'<div class="lesson-panel">'
+        f'<div class="next-label">Lección personalizada</div>'
+        f'<div class="next-title">📖 {tema}</div>'
+        f'<div class="next-subtitle">'
+        f'Contenido adaptado a tu nivel: <strong>{nivel}</strong>'
+        f'</div>'
+        f'</div>',
+        unsafe_allow_html=True,
     )
 
+    st.markdown(st.session_state["teoria"])
     st.divider()
 
     if tema in lecciones_completadas:
-        st.success("✅ Esta lección ya está marcada como completada.")
+        st.success(
+            "✅ Esta lección ya está marcada como completada."
+        )
     else:
         if st.button(
             "✅ Marcar lección como completada",
@@ -646,42 +543,48 @@ if "teoria" in st.session_state:
             st.session_state.pop("teoria", None)
             st.rerun()
 
-    col1, col2 = st.columns(2)
+    st.markdown("### Continúa aprendiendo")
+    columna_tutor, columna_practica = st.columns(2)
 
-    with col1:
+    with columna_tutor:
         if st.button(
-            "🤖 Ir al Tutor",
+            "🤖 Consultar a Nova",
             use_container_width=True,
-            key="ir_tutor"
+            key="ir_tutor",
         ):
             st.session_state["desde_ruta_aprendizaje"] = True
             st.session_state["tema_actual"] = tema
             st.switch_page("pages/chat.py")
 
-    with col2:
+    with columna_practica:
         if st.button(
             "📝 Practicar este tema",
             use_container_width=True,
-            key="practicar_tema"
+            key="practicar_tema",
         ):
             st.session_state["tema_actual"] = tema
             st.switch_page("pages/practice.py")
 
     siguiente_despues = None
+
     if tema in ruta_personalizada:
-        posicion = ruta_personalizada.index(tema)
-        for candidato in ruta_personalizada[posicion + 1:]:
+        posicion_actual = ruta_personalizada.index(tema)
+
+        for candidato in ruta_personalizada[posicion_actual + 1:]:
             if candidato not in lecciones_completadas:
                 siguiente_despues = candidato
                 break
 
     if siguiente_despues:
+        st.info(
+            f"Tu siguiente tema recomendado es: "
+            f"**{siguiente_despues}**"
+        )
+
         if st.button(
             f"➡️ Continuar con: {siguiente_despues}",
             use_container_width=True,
-            key="siguiente_leccion",
+            key="continuar_siguiente_leccion",
         ):
-            st.session_state["tema_actual"] = siguiente_despues
-            st.session_state.pop("teoria", None)
-            registrar_leccion_iniciada(siguiente_despues)
+            generar_leccion(siguiente_despues)
             st.rerun()

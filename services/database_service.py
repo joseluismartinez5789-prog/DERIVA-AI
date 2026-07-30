@@ -1,9 +1,15 @@
 import sqlite3
+import threading
+import time
 from contextlib import contextmanager
 from pathlib import Path
 
 
 RUTA_BASE_DATOS = Path("data/deriva_ai.db")
+
+# Evita que dos ejecuciones de Streamlit intenten migrar SQLite al mismo tiempo.
+_BLOQUEO_INICIALIZACION = threading.Lock()
+_BASE_DATOS_INICIALIZADA = False
 
 
 def _crear_carpeta_datos():
@@ -25,6 +31,9 @@ def obtener_conexion():
 
     conexion.execute(
         "PRAGMA foreign_keys = ON"
+    )
+    conexion.execute(
+        "PRAGMA busy_timeout = 60000"
     )
 
     return conexion
@@ -180,7 +189,7 @@ def _normalizar_correos_estudiantes(
         )
 
 
-def inicializar_base_datos():
+def _inicializar_base_datos_interna():
     with conexion_db() as conexion:
         conexion.executescript(
             """
@@ -406,3 +415,47 @@ def inicializar_base_datos():
               AND TRIM(correo) <> ''
             """
         )
+
+
+def inicializar_base_datos():
+    """
+    Inicializa y migra la base de datos una sola vez por proceso.
+
+    Streamlit puede ejecutar app.py varias veces y también puede recibir
+    varias sesiones al mismo tiempo. Este bloqueo evita que dos ejecuciones
+    intenten modificar el esquema SQLite simultáneamente.
+
+    Si SQLite está temporalmente bloqueado durante el arranque, se realizan
+    varios intentos antes de mostrar el error real.
+    """
+    global _BASE_DATOS_INICIALIZADA
+
+    if _BASE_DATOS_INICIALIZADA:
+        return
+
+    with _BLOQUEO_INICIALIZACION:
+        if _BASE_DATOS_INICIALIZADA:
+            return
+
+        ultimo_error = None
+
+        for intento in range(5):
+            try:
+                _inicializar_base_datos_interna()
+                _BASE_DATOS_INICIALIZADA = True
+                return
+
+            except sqlite3.OperationalError as error:
+                ultimo_error = error
+                mensaje = str(error).lower()
+
+                if (
+                    "locked" not in mensaje
+                    and "busy" not in mensaje
+                ):
+                    raise
+
+                time.sleep(1.5 * (intento + 1))
+
+        if ultimo_error is not None:
+            raise ultimo_error
